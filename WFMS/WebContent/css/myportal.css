@@ -1,0 +1,62 @@
+.portlet-icon{
+	background-image: url("../imgs/update.gif")  !important 	; 
+	background-repeat:no-repeat;
+}
+
+#portlet_sysNav .x-panel-body {
+	background: white;
+	font: 12px Arial, Helvetica, sans-serif;
+}
+
+#portlet_sysNav .thumb {
+	background: #ffffff;
+	padding: 5px
+}
+
+#portlet_sysNav .thumb img {
+	float:left;
+	height: 64px;
+	width: 64px;
+}
+
+#portlet_sysNav .thumb-wrap {
+	float: left;
+	width: 130px;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+
+#portlet_sysNav .thumb-wrap span {
+	padding-top: 15px;
+	display: block;
+	overflow: hidden;
+	text-align: center;
+}
+
+#portlet_sysNav .x-view-over {
+	border: 1px solid #dddddd;
+	background: #eff5fb url(images/selected.gif) no-repeat right bottom;
+	padding: 4px;
+}
+
+#portlet_sysNav .x-view-selected {
+	background: #eff5fb url(images/selected.gif) no-repeat right bottom;
+	border: 1px solid #99bbe8;
+	padding: 4px;
+}
+
+#portlet_sysNav .x-view-selected .thumb {
+	background: transparent;
+}
+
+#portlet_sysNav .loading-indicator {
+	font-size: 11px;
+	background-image: url('../../resources/images/default/grid/loading.gif')
+		;
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left: 20px;
+	margin: 10px;
+	background: transparent;
+}
