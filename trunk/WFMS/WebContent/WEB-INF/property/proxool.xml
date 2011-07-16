@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the proxool configuration can be embedded within your own application's.
+Anything outside the "proxool" tag is ignored. -->
+<something-else-entirely>
+  <proxool>
+    <alias>webdemoPool</alias>
+    <driver-url>jdbc:oracle:thin:@192.168.0.15:1521:XUNER</driver-url>
+    <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+    <driver-properties>
+      <property name="user" value="ECM"/>
+      <property name="password" value="ECM"/>
+    </driver-properties>
+    <maximum-connection-count>80</maximum-connection-count>
+    <minimum-connection-count>20</minimum-connection-count>
+    <house-keeping-sleep-time>180000</house-keeping-sleep-time>
+    <prototype-count>5</prototype-count>
+    <house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>
+  </proxool>
+</something-else-entirely>
