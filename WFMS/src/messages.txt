@@ -1,0 +1,72 @@
+# jakarta-commons Validator Error Messages
+errors.required={0} 必须填写
+errors.minlength={0} 不能少于{1}个字符
+errors.maxlength={0} 不能超过{1}个字符
+errors.invalid={0} 是无效的格式
+
+errors.byte={0} 必须是字节(byte)
+errors.short={0} 必须是短整数(short)
+errors.integer={0} 必须是整数(integer)
+errors.long={0} 必须是长整数(long)
+errors.float={0} 必须是单精度浮点数(float)
+errors.double={0} 必须是双精度浮点数(double)
+
+errors.date={0} 无效的日期格式
+errors.range={0} 必须在范围{1}-{2}之间
+errors.creditcard={0} 无效的信用卡号
+errors.email={0} 无效的电子邮件地址格式
+
+# Spring Messages
+error.not-specified=Percentage not specified!!!
+error.too-low=You have to specify a percentage higher than {0}!
+error.too-high=Don't be greedy - you can't raise prices by more than {0}%!
+required=Entry required.
+typeMismatch=无效的数据
+typeMismatch.percentage=无效的数字 
+
+# Application errors
+error.login.notfinduser=用户名或密码不正确
+error.login.verifynumber=验证码不正确
+error.login.oldPwd=旧密码不正确
+error.login.newPwd=确认新密码不正确
+
+# Application Messages
+html.head.title=web框架例子
+
+# Form Messages
+form.operate=操作
+form.detail=详细
+form.view=查看
+form.edit=编辑
+form.delete=删除
+form.delete.msg=是否删除记录?
+form.append=新增
+form.search=查询
+form.submit=提交
+form.reset=重置
+form.save=保存
+form.return=返回
+form.resume=恢复
+form.stop=终止
+form.select=选择
+form.ok=确定
+form.cancel=取消
+form.next=下一步
+form.bool.null=
+form.bool.1=是
+form.bool.0=否
+
+# user
+user.state.0=启用
+user.state.1=禁用
+user.state.2=删除
+
+# serverConfig
+config.position.0=接收端
+config.position.1=发送端
+
+# loginUser
+chnagepwd.password=旧密码
+chnagepwd.newpwd=新密码
+chnagepwd.newpwd2=确认新密码
+form.save=修改密码
