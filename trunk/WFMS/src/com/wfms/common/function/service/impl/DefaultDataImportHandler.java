@@ -16,6 +16,7 @@ import com.wfms.common.function.attribute.ActionReport;
 import com.wfms.common.function.attribute.ImportField;
 import com.wfms.common.function.attribute.LxdmType;
 import com.wfms.common.function.command.DataImportForm;
+import com.wfms.common.function.constant.DataImportConstant;
 import com.wfms.common.function.dao.IImportDao;
 import com.wfms.common.function.entity.Column;
 import com.wfms.common.function.entity.ImportRule;
@@ -23,7 +24,6 @@ import com.wfms.common.function.service.DataImportHandler;
 import com.wfms.common.function.util.DataImportValidater;
 import com.wfms.common.system.dao.ICodeDao;
 import com.wfms.common.system.entity.Code;
-import com.wfms.constant.DataImportConstant;
 
 /**
  * 
