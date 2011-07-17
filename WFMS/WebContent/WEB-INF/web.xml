@@ -96,7 +96,7 @@
 	<!-- proxool shutdown servlet-->
 	<servlet>   
 		<servlet-name>proxoolShutdownServlet </servlet-name>   
-		<servlet-class>com.xunersoft.common.web.ProxoolServlet</servlet-class>   
+		<servlet-class>com.wfms.common.web.ProxoolServlet</servlet-class>   
 		<load-on-startup>2</load-on-startup>   
 	</servlet>  
 	
