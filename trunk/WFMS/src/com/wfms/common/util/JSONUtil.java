@@ -1,345 +1,224 @@
 package com.wfms.common.util;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
+import net.sf.json.util.PropertyFilter;
 
-import com.wfms.common.entity.Invisible;
-import com.wfms.common.entity.InvisibleFilter;
-import com.wfms.common.entity.SimpleFieldProcessor;
+import com.wfms.common.orm.Page;
 
 public class JSONUtil {
 
-	private static String DEFAULT_IGNORE_ANNOTATION = "ignore";
+	private static String dateFormat = "yyyy-M-d";
 
-	/*private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-			.getLog(JSONUtil.class);
-*/
-	public static JSONObject formatObject(Object obj) {
-		JSONObject jsObj = JSONObject.fromObject(obj);
-		return jsObj;
+	/**
+	 * 必须的
+	 * 
+	 * @param fromObject
+	 * @param required
+	 * @return
+	 */
+	public static JSONObject requiredObject(Object fromObject,
+			Class<?> listType, String format, final String... required) {
+		JsonConfig config = requiredConfig(format, listType, required);
+		return JSONObject.fromObject(fromObject, config);
 	}
 
-	public static JSONObject formatObject(Object obj, String fiterColumn) {
-		JSONObject jsObj = JSONObject.fromObject(obj,
-				columnsFilter(new String[] { fiterColumn }));
-		return jsObj;
+	public static JSONObject requiredObject(Object fromObject,
+			Class<?> listType, final String... required) {
+		JsonConfig config = requiredConfig(dateFormat, listType, required);
+		return JSONObject.fromObject(fromObject, config);
 	}
 
-	public static JSONObject formatObject(Object obj, String[] fiterColumns) {
-		JSONObject jsObj = JSONObject.fromObject(obj,
-				columnsFilter(fiterColumns));
-		return jsObj;
+	public static JSONObject requiredObject(Object fromObject,
+			final String... required) {
+		return requiredObject(fromObject, null, null, required);
 	}
 
-	public static JSONArray formatArray(Object list) {
-		JSONArray jsAry = JSONArray.fromObject(list);
-		return jsAry;
+	public static JSONArray requiredArray(Object fromArray, String format,
+			Class<?> listType, final String... required) {
+		JsonConfig config = requiredConfig(format, listType, required);
+		return JSONArray.fromObject(fromArray, config);
 	}
 
-	public static JSONArray formatArray(Object list, String fiterColumn) {
-		JSONArray jsAry = JSONArray.fromObject(list,
-				columnsFilter(new String[] { fiterColumn }));
-		return jsAry;
+	public static JSONArray requiredArray(Object fromArray,
+			final String... required) {
+		return requiredArray(fromArray, null, null, required);
 	}
 
-	public static JSONArray formatArray(Object list, String[] fiterColumns) {
-		JSONArray jsAry = JSONArray.fromObject(list,
-				columnsFilter(fiterColumns));
-		return jsAry;
+	/**
+	 * 过滤的
+	 * 
+	 * @param fromObject
+	 * @param required
+	 * @return
+	 */
+
+	public static JSONObject filterObject(Object fromObject, String format,
+			final String... filter) {
+		JsonConfig config = filterConfig(format, filter);
+		return JSONObject.fromObject(fromObject, config);
 	}
 
-	public static JSONObject formatObject(Object obj, boolean annotationFilter,
-			String... filterAnnotations) {
-		if (annotationFilter) {
-			return JSONObject.fromObject(obj,
-					annotationFilter(filterAnnotations));
+	public static JSONObject filterObject(Object fromObject,
+			final String... filter) {
+		return filterObject(fromObject, null, filter);
+	}
 
+	public static JSONArray filterArray(Object fromArray, String format,
+			final String... filter) {
+		JsonConfig config = filterConfig(format, filter);
+		return JSONArray.fromObject(fromArray, config);
+	}
+
+	public static JSONArray filterArray(Object fromArray,
+			final String... filter) {
+		return filterArray(fromArray, null, filter);
+	}
+
+	/**
+	 * 格式化Page指定属性值
+	 * 
+	 * @param page
+	 * @param required
+	 * @return
+	 */
+	public static JSONObject requiredPage(Page page, Class<?> listType,
+			String... required) {
+		int orginalLength = required != null ? required.length : 0;
+		String[] destRequired = null;
+		if (orginalLength != 0) {
+			int destLength = orginalLength + 4;
+			destRequired = new String[destLength];
+			destRequired[destLength - 1] = "results";
+			destRequired[destLength - 2] = "total";
+			destRequired[destLength - 3] = "limit";
+			destRequired[destLength - 4] = "start";
+			System.arraycopy(required, 0, destRequired, 0, orginalLength);
+			required = destRequired;
 		}
-		return formatObject(obj,filterAnnotations);
+		return requiredObject(page, listType, required);
 	}
 
-	public static JSONArray formatArray(Object list, boolean annotationFilter,
-			String... filterAnnotaions) {
-		if (annotationFilter) {
-			return JSONArray.fromObject(list,
-					annotationFilter(filterAnnotaions));
+	/**
+	 * 过滤Page指定属性
+	 * 
+	 * @param page
+	 * @param required
+	 * @return
+	 */
+	public static JSONObject filterPage(Page page, String... required) {
+		return requiredObject(page, required);
+	}
 
+	private static JsonConfig requiredConfig(String format,
+			final Class<?> listType, String... required) {
+		if(required == null)
+		{
+			required = new String[0];
 		}
-		return formatArray(list);
-	}
-
-	public static JSONObject formatSimpleObject(Object obj,
-			String... filterAttributes) {
-		return JSONObject.fromObject(obj, simpleFilter(filterAttributes));
-	}
-
-	public static JSONArray formatSimpleArray(Object list,
-			String... filterAttributes) {
-		return JSONArray.fromObject(list, simpleFilter(filterAttributes));
-	}
-
-	private static JsonConfig columnsFilter(String[] params) {
-		JsonConfig config = new JsonConfig();
-		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-		if (params.length == 0) {
-			return config;
-		}
-		config.setExcludes(params);
-		return config;
-	}
-
-	private static JsonConfig propertyFilter(boolean ignorCollection,
-			String[] filterProperties) {
-		JsonConfig config = new JsonConfig();
-		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-		if (ignorCollection && !StringUtil.isNullOrSizeZero(filterProperties)) {
-			config.setJsonPropertyFilter(new SimpleFieldProcessor(true,
-					filterProperties));
-		} else if (ignorCollection
-				&& StringUtil.isNullOrSizeZero(filterProperties)) {
-			config.setJsonPropertyFilter(new SimpleFieldProcessor(true));
-		} else if (!ignorCollection
-				&& !StringUtil.isNullOrSizeZero(filterProperties)) {
-			config.setJsonPropertyFilter(new SimpleFieldProcessor(false,
-					filterProperties));
-		}
-		return config;
-	}
-
-	private static JsonConfig annotationFilter(String... filterValues) {
-		JsonConfig config = new JsonConfig();
-		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-		config.setExcludes(filterValues);
-		config.addIgnoreFieldAnnotation(Invisible.class);
-		if (StringUtil.isNullOrSizeZero(filterValues)) {
-			config.setJsonPropertyFilter(new InvisibleFilter(
-					DEFAULT_IGNORE_ANNOTATION));
-		} else {
-			config.setJsonPropertyFilter(new InvisibleFilter(filterValues));
-		}
-		return config;
-	}
-
-	private static JsonConfig simpleFilter(String... filterAttributes) {
-		JsonConfig config = new JsonConfig();
-		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-		config.setJsonPropertyFilter(new SimpleFieldProcessor(true,
-				filterAttributes));
-		return config;
-	}
-
-	public static List<ConditionBean> formatConditionList(JSONObject obj) {
-		if (obj == null) {
-			return new ArrayList<ConditionBean>();
-		}
-		List<ConditionBean> list = new ArrayList<ConditionBean>();
-		for (Object key : obj.keySet()) {
-			if (key != null && !"".equals(String.valueOf(key))) {
-				Object value = obj.get(key);
-				if (value != null && !"".equals(String.valueOf(value))) {
-					list.add(new ConditionBean(String.valueOf(key), String
-							.valueOf(value), Rule.ALIKE));
+		final Map<String, String> requiredMap = new HashMap<String, String>();
+			for (String req : required) {
+				String[] reqArray = req.split("\\.");
+				int reqLen = reqArray.length;
+				if (reqArray.length > 1) {
+					requiredMap.put(reqArray[reqLen - 2], reqArray[reqLen - 1]);
 				}
 			}
-		}
-		return list;
-	}
-
-	public static List<ConditionBean> formatConditionList(JSONObject obj,
-			Map<String, Rule> RuleMap) {
-		if (obj == null) {
-			return new ArrayList<ConditionBean>();
-		}
-		List<ConditionBean> list = new ArrayList<ConditionBean>();
-		for (Object key : obj.keySet()) {
-			if (key != null && !"".equals(String.valueOf(key))) {
-				Object value = obj.get(key);
-				if (value != null && !"".equals(String.valueOf(value))) {
-					Rule rule = RuleMap.get(key);
-					if (rule != null) {
-						list.add(new ConditionBean(String.valueOf(key), String
-								.valueOf(value), rule));
-					} else {
-						list.add(new ConditionBean(String.valueOf(key), String
-								.valueOf(value), Rule.ALIKE));
+		JsonConfig config = baseFilterConfig();
+		final List<String> requiredList = Arrays.asList(required);
+		if (required != null && required.length != 0) {
+			config.setJsonPropertyFilter(new PropertyFilter() {
+				public boolean apply(Object source, String name, Object value) {
+					String className = source.getClass().getSimpleName()
+							.toLowerCase();
+					String fullName = className + "." + name;
+					boolean ignore = true;
+					if (ReflectionUtils.getFieldValue(source, name) == null
+							|| (!ReflectionUtils.getFieldValue(source, name)
+									.getClass().isPrimitive() && requiredMap
+									.containsKey(ReflectionUtils
+											.getFieldValue(source, name)
+											.getClass().getSimpleName()
+											.toLowerCase()))) {
+						return false;
 					}
-				}
-			}
-		}
-		return list;
-	}
-
-	public static String object2json(Object obj) {
-		StringBuilder json = new StringBuilder();
-		if (obj == null) {
-			json.append("\"\"");
-		} else if (obj instanceof String || obj instanceof Integer
-				|| obj instanceof Float || obj instanceof Boolean
-				|| obj instanceof Short || obj instanceof Double
-				|| obj instanceof Long || obj instanceof BigDecimal
-				|| obj instanceof BigInteger || obj instanceof Byte) {
-			json.append("\"").append(string2json(obj.toString())).append("\"");
-		} else if (obj instanceof Object[]) {
-			json.append(array2json((Object[]) obj));
-		} else if (obj instanceof List) {
-			json.append(list2json((List<?>) obj));
-		} else if (obj instanceof Map) {
-			json.append(map2json((Map<?, ?>) obj));
-		} else if (obj instanceof Set) {
-			json.append(set2json((Set<?>) obj));
-		} else {
-			json.append(bean2json(obj));
-		}
-		return json.toString();
-	}
-
-	public static String bean2json(Object bean) {
-		StringBuilder json = new StringBuilder();
-		json.append("{");
-		PropertyDescriptor[] props = null;
-		try {
-			props = Introspector.getBeanInfo(bean.getClass(), Object.class)
-					.getPropertyDescriptors();
-		} catch (IntrospectionException e) {
-		}
-		if (props != null) {
-			for (int i = 0; i < props.length; i++) {
-				try {
-					String name = object2json(props[i].getName());
-					String value = object2json(props[i].getReadMethod().invoke(
-							bean));
-					json.append(name);
-					json.append(":");
-					json.append(value);
-					json.append(",");
-				} catch (Exception e) {
-				}
-			}
-			json.setCharAt(json.length() - 1, '}');
-		} else {
-			json.append("}");
-		}
-		return json.toString();
-	}
-
-	public static String list2json(List<?> list) {
-		StringBuilder json = new StringBuilder();
-		json.append("[");
-		if (list != null && list.size() > 0) {
-			for (Object obj : list) {
-				json.append(object2json(obj));
-				json.append(",");
-			}
-			json.setCharAt(json.length() - 1, ']');
-		} else {
-			json.append("]");
-		}
-		return json.toString();
-	}
-
-	public static String array2json(Object[] array) {
-		StringBuilder json = new StringBuilder();
-		json.append("[");
-		if (array != null && array.length > 0) {
-			for (Object obj : array) {
-				json.append(object2json(obj));
-				json.append(",");
-			}
-			json.setCharAt(json.length() - 1, ']');
-		} else {
-			json.append("]");
-		}
-		return json.toString();
-	}
-
-	public static String map2json(Map<?, ?> map) {
-		StringBuilder json = new StringBuilder();
-		json.append("{");
-		if (map != null && map.size() > 0) {
-			for (Object key : map.keySet()) {
-				json.append(object2json(key));
-				json.append(":");
-				json.append(object2json(map.get(key)));
-				json.append(",");
-			}
-			json.setCharAt(json.length() - 1, '}');
-		} else {
-			json.append("}");
-		}
-		return json.toString();
-	}
-
-	public static String set2json(Set<?> set) {
-		StringBuilder json = new StringBuilder();
-		json.append("[");
-		if (set != null && set.size() > 0) {
-			for (Object obj : set) {
-				json.append(object2json(obj));
-				json.append(",");
-			}
-			json.setCharAt(json.length() - 1, ']');
-		} else {
-			json.append("]");
-		}
-		return json.toString();
-	}
-
-	public static String string2json(String s) {
-		if (s == null)
-			return "";
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-			switch (ch) {
-			case '"':
-				sb.append("\\\"");
-				break;
-			case '\\':
-				sb.append("\\\\");
-				break;
-			case '\b':
-				sb.append("\\b");
-				break;
-			case '\f':
-				sb.append("\\f");
-				break;
-			case '\n':
-				sb.append("\\n");
-				break;
-			case '\r':
-				sb.append("\\r");
-				break;
-			case '\t':
-				sb.append("\\t");
-				break;
-			case '/':
-				sb.append("\\/");
-				break;
-			default:
-				if (ch >= '\u0000' && ch <= '\u001F') {
-					String ss = Integer.toHexString(ch);
-					sb.append("\\u");
-					for (int k = 0; k < 4 - ss.length(); k++) {
-						sb.append('0');
+					for (int i = 0; i < requiredList.size(); i++) {
+						String req = requiredList.get(i);
+						if (req == null) {
+							continue;
+						}
+						String[] parry = req.split("\\.");
+						if (parry.length == 1) {
+							if (req.equals(name)) {
+								ignore = false;
+								if (source.getClass() != listType) {
+									requiredList.set(i, null);
+								}
+								break;
+							}
+						} else {
+							if (parry.length > 2) {
+								req = parry[parry.length - 2] + "."
+										+ parry[parry.length - 1];
+							}
+							if (req.equals(fullName)) {
+								ignore = false;
+								if (source.getClass() != listType) {
+									requiredList.set(i, null);
+								}
+								break;
+							}
+						}
 					}
-					sb.append(ss.toUpperCase());
-				} else {
-					sb.append(ch);
+					return ignore;
 				}
-			}
+			});
 		}
-		return sb.toString();
+		return config;
+	}
+
+	private static JsonConfig filterConfig(String format, String... filter) {
+		JsonConfig config = new JsonConfig();
+		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		config.setExcludes(new String[] { "handler", "hibernateLazyInitializer" });
+		if (format != null && !"".equals(format)) {
+			dateFormat = format;
+		}
+		config.registerJsonValueProcessor(java.util.Date.class,
+				new JsonValueProcessorImpl(dateFormat));
+		config.registerJsonValueProcessor(java.sql.Date.class,
+				new JsonValueProcessorImpl(dateFormat));
+		if (filter != null && filter.length != 0) {
+			config.setExcludes(filter);
+		}
+		return config;
+	}
+
+	public static JsonConfig baseFilterConfig(String... format) {
+		JsonConfig config = new JsonConfig();
+		config.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		config.setExcludes(new String[] { "handler", "hibernateLazyInitializer" });
+		if (format != null && format.length != 0 && !"".equals(format[0])) {
+			config.registerJsonValueProcessor(java.util.Date.class,
+					new JsonValueProcessorImpl(format[0]));
+			config.registerJsonValueProcessor(java.sql.Date.class,
+					new JsonValueProcessorImpl(format[0]));
+		}
+		else
+		{
+			config.registerJsonValueProcessor(java.util.Date.class,
+					new JsonValueProcessorImpl(dateFormat));
+			config.registerJsonValueProcessor(java.sql.Date.class,
+					new JsonValueProcessorImpl(dateFormat));
+		}
+		
+		return config;
 	}
 }

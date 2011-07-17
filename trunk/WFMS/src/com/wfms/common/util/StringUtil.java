@@ -1,6 +1,26 @@
 package com.wfms.common.util;
 
+import java.io.UnsupportedEncodingException;
+
+import org.apache.commons.lang.StringUtils;
+
 public class StringUtil {
+	
+	/**
+	 * 字符编码转换
+	 * @param str
+	 * @return
+	 */
+	public static String iso2utf(String str) {
+		String result = StringUtils.stripToEmpty(str);
+		try {
+			result = new String(result.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	/**
 	 * 中文转码
 	 * @param src

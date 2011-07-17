@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.wfms.common.entity.OtherTreeEntity;
-import com.wfms.common.entity.Tree;
-import com.wfms.common.entity.TreeEntity;
-import com.wfms.model.rsgl.RyEntity;
-import com.wfms.model.system.DepartGenInfo;
-import com.wfms.model.system.MemberGenInfo;
-import com.wfms.model.system.ModuleGenInfo;
+import com.wfms.common.attribute.OtherTreeEntity;
+import com.wfms.common.attribute.Tree;
+import com.wfms.common.attribute.TreeEntity;
+import com.wfms.common.system.entity.DepartGenInfo;
+import com.wfms.common.system.entity.ModuleGenInfo;
+import com.wfms.common.system.entity.User;
 
 public class TreeUtil {
 	private static int levelNumber = 0;
@@ -116,47 +115,7 @@ public class TreeUtil {
 		return list;
 	}
 
-	public static List<OtherTreeEntity> getTreeByRy(String contextPath,
-			List<RyEntity> ryList) {
-		List<OtherTreeEntity> list = new ArrayList<OtherTreeEntity>();
-		for (RyEntity ry : ryList) {
-			OtherTreeEntity tree = new OtherTreeEntity();
-			tree.setId(String.valueOf(ry.getId()));
-			tree.setText(ry.getRyxm());
-			tree.setQtip("姓名：" + ry.getRyxm() + "，出生日期："
-					+ (ry.getCsrq() == null ? "暂无" : ry.getCsrq())
-					+ "<br/>在职状态：" + ("0".equals(ry.getZt()) ? "离职" : "在职"));
-			if ("1".equals(ry.getXb())) {
-				tree.setIcon(contextPath + "/imgs/boy.gif");
-			} else {
-				tree.setIcon(contextPath + "/imgs/girl.gif");
-			}
-			tree.setLeaf(true);
-			list.add(tree);
-		}
-		return list;
-	}
-
-	/**
-	 * 用户树
-	 * 
-	 * @param yhList
-	 * @return
-	 */
-	public static List<OtherTreeEntity> getTreeByYh(List<MemberGenInfo> yhList) {
-		List<OtherTreeEntity> list = new ArrayList<OtherTreeEntity>();
-		for (MemberGenInfo yh : yhList) {
-			OtherTreeEntity tree = new OtherTreeEntity();
-			tree.setId(yh.getMemid());
-			tree.setText(yh.getUsername());
-			tree.setQtip(yh.getLoginid());
-			tree.setLeaf(true);
-			list.add(tree);
-		}
-		return list;
-	}
-
-	public static List<OtherTreeEntity> getTreeByYhs(List<MemberGenInfo> yhList) {
+	public static List<OtherTreeEntity> getTreeByYhs(List<User> yhList) {
 		List<OtherTreeEntity> list = new ArrayList<OtherTreeEntity>();
 		OtherTreeEntity tree = null;
 		tree = new OtherTreeEntity();

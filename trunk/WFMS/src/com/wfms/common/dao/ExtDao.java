@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,11 +25,14 @@ import javax.sql.DataSource;
 
 import oracle.jdbc.OracleResultSetMetaData;
 
+import org.hibernate.CacheMode;
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.jdbc.Work;
 import org.hibernate.metadata.ClassMetadata;
@@ -36,6 +41,7 @@ import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 public class ExtDao extends BaseDao {
@@ -44,6 +50,137 @@ public class ExtDao extends BaseDao {
 	@Qualifier("sessionFactory")
 	public void setSuperSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
+	}
+
+	@SuppressWarnings("unchecked")
+	protected int batchAdd(List transientInstances, int commitNum) {
+		if (transientInstances == null || transientInstances.size() == 0) {
+			return 0;
+		}
+		Transaction tx = null;
+		HibernateTemplate hbTemp = getHibernateTemplate();
+		hbTemp.setAllowCreate(true);
+		Session session = hbTemp.getSessionFactory().openSession();
+		int fetchCount = 0;
+		try {
+			tx = session.beginTransaction();
+			int i = 0;
+			for (Object transientInstance : transientInstances) {
+				session.save(transientInstance);
+				i++;
+				if (i == commitNum) {
+					tx.commit();
+					fetchCount += i;
+					i = 0;
+					session.flush();
+					session.clear();
+					tx = session.beginTransaction();
+				}
+			}
+			if (i != 0) {
+				tx.commit();
+				fetchCount += i;
+				session.flush();
+				session.clear();
+			}
+			return fetchCount;
+		} catch (Exception re) {
+			if (tx != null && tx.isActive())
+				tx.rollback();
+			re.printStackTrace();
+			return -1;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected int batchUpdate(List transientInstances, int commitNum) {
+		Transaction tx = null;
+		HibernateTemplate hbTemp = getHibernateTemplate();
+		hbTemp.setAllowCreate(true);
+		Session session = hbTemp.getSessionFactory().openSession();
+		int fetchCount = 0;
+		try {
+			tx = session.beginTransaction();
+			int i = 0;
+			for (Object transientInstance : transientInstances) {
+				session.update(transientInstance);
+				i++;
+				if (i == commitNum) {
+					tx.commit();
+					fetchCount += i;
+					i = 0;
+					session.flush();
+					session.clear();
+					tx = session.beginTransaction();
+				}
+			}
+			if (i != 0) {
+				tx.commit();
+				fetchCount += i;
+				session.flush();
+				session.clear();
+			}
+			return fetchCount;
+		} catch (Exception re) {
+			if (tx != null && tx.isActive())
+				tx.rollback();
+			return -1;
+		}
+	}
+
+	protected int[] executeSQLBatchUpdate(String[] sqls) {
+		int[] affectedCount = null;
+		Session session = this.getSession();
+		session.setCacheMode(CacheMode.IGNORE);
+
+		Connection conn = null;
+		Statement st = null;
+		try {
+			conn = SessionFactoryUtils.getDataSource(getSessionFactory())
+					.getConnection();
+			conn.setAutoCommit(false);
+			st = conn.createStatement();
+			if (sqls != null && sqls.length > 0) {
+				for (String sql : sqls) {
+					if (!"".equals(sql))
+						;
+					st.addBatch(sql);
+				}
+			} else {
+				return null;
+			}
+			affectedCount = st.executeBatch();
+			st.clearBatch();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		try {
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return affectedCount;
+	}
+
+	protected Class<?> getClassByTableName(String tableName) {
+		Class<?> clzz = null;
+		Configuration cfg = new Configuration().configure();
+		Iterator<?> iter = cfg.getTableMappings();
+		Iterator<?> iter1 = cfg.getClassMappings();
+		while (iter.hasNext()) {
+			Object obj = iter.next();
+			System.out.println(obj);
+		}
+		while (iter1.hasNext()) {
+			Object obj = iter.next();
+			System.out.println(obj);
+		}
+		return clzz;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -187,7 +324,6 @@ public class ExtDao extends BaseDao {
 		return mainObjList;
 	}
 
-	// String columnType=getDataType(rmd.getColumnType(i),rmd.getScale(i));
 	private String getOracleClobField(ResultSet rset, int index)
 			throws Exception {
 		StringBuffer buffS = new StringBuffer();
@@ -318,38 +454,28 @@ public class ExtDao extends BaseDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+
 		Work work = new Work() {
 			public void execute(Connection conn) throws SQLException {
 				// 通过JDBC API执行用于批量更新的SQL语句
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				stmt.executeUpdate();
 				ResultSet rs = stmt.executeQuery();
-					if (rs.next()) {
-						for (int i = 0; i < outputValue.length; i++)
-							result[i] = rs.getString(outputValue[i]);
-					}
+				if (rs.next()) {
+					for (int i = 0; i < outputValue.length; i++)
+						result[i] = rs.getString(outputValue[i]);
+				}
 			}
 		};
-		/*try {
-			conn = SessionFactoryUtils.getDataSource(getSessionFactory())
-					.getConnection();
-			;
-			stmt = conn.prepareStatement(sql);
-			for (int i = 0; i < inputValue.length; i++)
-				stmt.setString(i + 1, inputValue[i]);
-			rs = stmt.executeQuery();
-			if (rs.next()) {
-				for (int i = 0; i < outputValue.length; i++)
-					result[i] = rs.getString(outputValue[i]);
-			} else {
-				result = (String[]) null;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			result = null;
-			throw e;
-		}*/
+		/*
+		 * try { conn = SessionFactoryUtils.getDataSource(getSessionFactory())
+		 * .getConnection(); ; stmt = conn.prepareStatement(sql); for (int i =
+		 * 0; i < inputValue.length; i++) stmt.setString(i + 1, inputValue[i]);
+		 * rs = stmt.executeQuery(); if (rs.next()) { for (int i = 0; i <
+		 * outputValue.length; i++) result[i] = rs.getString(outputValue[i]); }
+		 * else { result = (String[]) null; } } catch (SQLException e) {
+		 * e.printStackTrace(); result = null; throw e; }
+		 */
 		this.getSession().doWork(work);
 		return result;
 	}
@@ -570,7 +696,7 @@ public class ExtDao extends BaseDao {
 		}
 		return namedValues;
 	}
-	
+
 	public Set<String> getTableName(String sql) throws SQLException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -582,19 +708,16 @@ public class ExtDao extends BaseDao {
 					.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			if(rs!=null)
-			{
+			if (rs != null) {
 				rs.next();
-				//rs.previous();
+				// rs.previous();
 			}
 			rsmd = rs.getMetaData();
-			OracleResultSetMetaData orarsmd = (OracleResultSetMetaData)rsmd;
+			OracleResultSetMetaData orarsmd = (OracleResultSetMetaData) rsmd;
 			orarsmd.isSearchable(1);
-			//orarsmd.
-			for (int i = 0; i < rsmd.getColumnCount(); i++)
-			{
-				if(!tableSet.contains(rsmd.getTableName(i)))
-				{
+			// orarsmd.
+			for (int i = 0; i < rsmd.getColumnCount(); i++) {
+				if (!tableSet.contains(rsmd.getTableName(i))) {
 					tableSet.add(orarsmd.getTableName(i));
 					tableSet.add(orarsmd.getSchemaName(i));
 				}
