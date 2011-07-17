@@ -19,7 +19,6 @@ import com.wfms.common.util.BeanConvort;
 import com.wfms.common.util.DateUtil;
 import com.wfms.common.util.EncoderUtil;
 import com.wfms.common.util.StringUtil;
-import com.wfms.constant.DataImportConstant;
 
 @Component("ryImportHandler")
 @Scope("prototype")

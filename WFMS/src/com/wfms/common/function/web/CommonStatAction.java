@@ -24,10 +24,9 @@ import com.wfms.common.function.attribute.StatConditionBean;
 import com.wfms.common.function.attribute.StatViewBean;
 import com.wfms.common.function.attribute.fusion3.FusionChart;
 import com.wfms.common.function.attribute.fusion3.FusionChartDto;
+import com.wfms.common.function.constant.DataStatConstant;
 import com.wfms.common.function.entity.StatDefine;
 import com.wfms.common.function.util.StatUtil;
-import com.wfms.common.util.JSONUtil;
-import com.wfms.constant.DataStatConstant;
 
 @Controller
 @RequestMapping("/common/dataStatAction.do")
