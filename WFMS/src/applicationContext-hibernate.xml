@@ -78,24 +78,10 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				
 			</list>
 		</property>
 		<property name="mappingResources">
 			<list>
-				<!-- 系统映射文件 -->
-				<value>../hbm/system/QtdmEntity.hbm.xml</value>
-				<value>../hbm/system/LxdmEntity.hbm.xml</value>
-				<value>../hbm/system/BhscgzszEntity.hbm.xml</value>
-				<value>../hbm/system/BhscgztjEntity.hbm.xml</value>
-				<value>../hbm/system/XtszEntity.hbm.xml</value>
-				<!-- 人事管理映射文件 -->
-				<value>../hbm/rsgl/BmEntity.hbm.xml</value>
-				<value>../hbm/rsgl/RyydEntity.hbm.xml</value>
-				<value>../hbm/rsgl/RyhjEntity.hbm.xml</value>
-				<value>../hbm/rsgl/KnzgEntity.hbm.xml</value>
-				<value>../hbm/rsgl/RyjtcyEntity.hbm.xml</value>
-
 				<!-- 通用模块 -->
 				<value>../hbm/common/ColumnEntity.hbm.xml</value>
 				<value>../hbm/common/UniqueColEntity.hbm.xml</value>
