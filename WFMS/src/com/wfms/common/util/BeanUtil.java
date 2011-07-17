@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-import com.wfms.common.entity.TreeEntity;
+import com.wfms.common.attribute.TreeEntity;
 
 
 
