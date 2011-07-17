@@ -143,7 +143,7 @@ CREATE TABLE [dbo].[MEM_MODULE] (
 GO
 
 ----  员工与职务关联
-CREATE TABLE [dbo].[MEM_ROL] (
+CREATE TABLE [dbo].[MEM_ROLE] (
 	[ID] [varchar] (32) COLLATE Chinese_PRC_CI_AS NOT NULL ,
 	[MEMID] [varchar] (32) COLLATE Chinese_PRC_CI_AS NOT NULL ,
 	[ROLID] [varchar] (32) COLLATE Chinese_PRC_CI_AS NOT NULL 
