@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	- Application context
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-autowire="byName" default-lazy-init="true">
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSource definition below) -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:jdbc.properties" />
+	</bean>
+
+	<bean id="dataSource"
+		class="org.logicalcobwebs.proxool.ProxoolDataSource"
+		p:alias="${hibernate.proxool.pool_alias}"
+		p:driver="${jdbc.driverClassName}" p:driverUrl="${jdbc.url}"
+		p:user="${jdbc.username}" p:password="${jdbc.password}"
+		p:prototypeCount="${proxool.prototypeCount}"
+		p:minimumConnectionCount="${proxool.minimumConnectionCount}"
+		p:maximumConnectionCount="${proxool.maximumConnectionCount}"
+		p:houseKeepingTestSql="${proxool.houseKeepingTestSql}"
+		p:trace="${proxool.trace}" p:verbose="${proxool.verbose}" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${hibernate.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">
+					${hibernate.show_sql}
+				</prop>
+				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.connection.release_mode">
+					after_statement
+				</prop>
+				<!-- 别名要和proxool配置中的相一致 -->
+				<prop key="hibernate.proxool.pool_alias">
+					webdemoPool
+				</prop>
+				<prop key="connection.provider_class">
+					org.hibernate.connection.ProxoolConnectionProvider
+				</prop>
+			</props>
+		</property>
+		<property name="eventListeners">
+			<map>
+				<entry key="merge">
+					<bean
+						class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener" />
+				</entry>
+			</map>
+		</property>
+		<property name="packagesToScan">
+			<list>
+				<value>com.xunersoft.model</value>
+			</list>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				
+			</list>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<!-- 系统映射文件 -->
+				<value>../hbm/system/QtdmEntity.hbm.xml</value>
+				<value>../hbm/system/LxdmEntity.hbm.xml</value>
+				<value>../hbm/system/BhscgzszEntity.hbm.xml</value>
+				<value>../hbm/system/BhscgztjEntity.hbm.xml</value>
+				<value>../hbm/system/XtszEntity.hbm.xml</value>
+				<!-- 人事管理映射文件 -->
+				<value>../hbm/rsgl/BmEntity.hbm.xml</value>
+				<value>../hbm/rsgl/RyydEntity.hbm.xml</value>
+				<value>../hbm/rsgl/RyhjEntity.hbm.xml</value>
+				<value>../hbm/rsgl/KnzgEntity.hbm.xml</value>
+				<value>../hbm/rsgl/RyjtcyEntity.hbm.xml</value>
+
+				<!-- 通用模块 -->
+				<value>../hbm/common/ColumnEntity.hbm.xml</value>
+				<value>../hbm/common/UniqueColEntity.hbm.xml</value>
+				<value>../hbm/common/DrgzEntity.hbm.xml</value>
+				<value>../hbm/common/QueryViewEntity.hbm.xml</value>
+				<value>../hbm/common/StatRuleEntity.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- tx:annotation-driven transaction-manager="transactionManager"/ -->
+	<!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
+
+	<!-- dao bean -->
+
+	<!-- 创建事务管理器对象 该事物（切入）不能支持延迟视图层加载  -->
+	<tx:advice id="txAdc" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="upd*" propagation="REQUIRED" />
+			<tx:method name="init*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="yhdl*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="serviceMtd"
+			expression="
+			execution(* com.xunersoft.service.rsgl.impl.*.*(..))
+			
+			or execution(* com.xunersoft.service.system.impl.*.*(..))
+			
+			or execution(* com.xunersoft.service.zcgl.sbwh.impl.*.*(..))
+			or execution(* com.xunersoft.service.zcgl.impl.*.*(..))
+			
+			or execution(* com.xunersoft.service.jxc.jcsz.impl.*.*(..)) 
+			or execution(* com.xunersoft.service.jxc.fywh.impl.*.*(..)) 
+			or execution(* com.xunersoft.service.jxc.jxcrygl.impl.*.*(..)) 
+			"/>
+		<aop:advisor advice-ref="txAdc" pointcut-ref="serviceMtd" />
+	</aop:config>
+
+	<bean id="log4jdbcInterceptor"
+		class="net.sf.log4jdbc.DataSourceSpyInterceptor" />
+	<bean id="dataSourceLog4jdbcAutoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>log4jdbcInterceptor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>dataSource</value>
+			</list>
+		</property>
+	</bean>
+	
+	<context:component-scan base-package="com.wfms.dao" />
+	<context:component-scan base-package="com.wfms.service" />
+	<!--  <context:annotation-config />-->
+
+	<!--  <tx:annotation-driven />-->
+</beans>
