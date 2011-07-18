@@ -10,7 +10,6 @@ import java.util.TimerTask;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
