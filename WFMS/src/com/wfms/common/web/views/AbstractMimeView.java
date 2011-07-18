@@ -1,4 +1,3 @@
-
 package com.wfms.common.web.views;
 
 import java.io.UnsupportedEncodingException;
@@ -7,7 +6,6 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.view.AbstractView;
-
 
 public abstract class AbstractMimeView extends AbstractView {
 	public final static String FILE_PATH = "filePath";

@@ -23,16 +23,6 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 /**
- * <dl>  Description
- *  <dd> 项目名称：数字化校园信息平台ECMS
- *  <dd> 类名称：ExcelUtil
- *  <dd> 类描述：Excel操作�?
- *  <dd> 创建人：Administrator
- *  <dd> 创建时间：Feb 20, 2010 10:39:42 AM
- *  <dd> 修改人：�?
- *  <dd> 修改时间：无
- *  <dd> 修改备注：无
- * </dl>
  * @author CYC
  * @see ExcelUtil
  * @version 1.0

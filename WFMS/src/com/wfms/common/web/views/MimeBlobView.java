@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 public class MimeBlobView extends AbstractMimeView {
 
 	@SuppressWarnings("unchecked")

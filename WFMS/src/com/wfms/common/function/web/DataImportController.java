@@ -35,22 +35,8 @@ import com.wfms.common.function.entity.Column;
 import com.wfms.common.function.service.DataImportHandler;
 import com.wfms.common.function.util.ExcelUtil;
 import com.wfms.common.util.BeanConvert;
-import com.wfms.common.util.JSONUtil;
 
 /**
- * 
- * <dl>
- * Description
- * <dd> 项目名称：数字化校园信息平台ECMS
- * <dd> 类名称：DataImportAction
- * <dd> 类描述：
- * <dd> 创建人：Administrator
- * <dd> 创建时间：Mar 4, 2010 1:56:52 PM
- * <dd> 修改人：无
- * <dd> 修改时间：无
- * <dd> 修改备注：无
- * </dl>
- * 
  * @author CYC
  * @see DataImportController
  * @version 1.0

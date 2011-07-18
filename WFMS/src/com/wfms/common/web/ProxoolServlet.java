@@ -25,5 +25,4 @@ public class ProxoolServlet extends HttpServlet {
         ServletException, IOException {   
           
     }   
-  
 }   

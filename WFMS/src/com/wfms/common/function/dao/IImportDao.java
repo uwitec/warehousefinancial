@@ -20,20 +20,7 @@ import java.util.Map;
 import com.wfms.common.function.entity.Column;
 import com.wfms.common.function.entity.ImportRule;
 
-
-
-
 /**
- * <dl>  Description
- *  <dd> 项目名称：数字化校园信息平台ECMS
- *  <dd> 类名称：IImportDao
- *  <dd> 类描述：
- *  <dd> 创建人：Administrator
- *  <dd> 创建时间：Jan 29, 2010 12:16:48 PM
- *  <dd> 修改人：无
- *  <dd> 修改时间：无
- *  <dd> 修改备注：无
- * </dl>
  * @author CYC
  * @see IImportDao
  * @version 1.0

@@ -3,17 +3,6 @@ package com.wfms.common.function.attribute;
 import java.util.List;
 
 /**
- * 
- * <dl>  Description
- *  <dd> 项目名称：数字化校园信息平台ECMS
- *  <dd> 类名称：StatResultSetBean
- *  <dd> 类描述：通用统计实体
- *  <dd> 创建人：Administrator
- *  <dd> 创建时间：Mar 4, 2010 2:01:56 PM
- *  <dd> 修改人：无
- *  <dd> 修改时间：无
- *  <dd> 修改备注：无
- * </dl>
  * @author CYC
  * @see StatResultSetBean
  * @version 1.0

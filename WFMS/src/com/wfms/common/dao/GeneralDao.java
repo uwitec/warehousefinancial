@@ -3,7 +3,6 @@ package com.wfms.common.dao;
 import java.io.Serializable;
 
 import com.wfms.common.orm.BaseEntity;
-import com.wfms.common.orm.CommonEntity;
 import com.wfms.common.orm.Page;
 
 public interface GeneralDao<T extends BaseEntity> {

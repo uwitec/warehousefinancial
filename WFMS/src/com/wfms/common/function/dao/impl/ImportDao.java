@@ -29,18 +29,6 @@ import com.wfms.common.function.entity.ImportRule;
 import com.wfms.common.function.entity.UniqueColumn;
 
 /**
- * <dl>
- * Description
- * <dd> 项目名称：数字化校园信息平台ECMS
- * <dd> 类名称：ImportDao
- * <dd> 类描述：
- * <dd> 创建人：Administrator
- * <dd> 创建时间：Jan 29, 2010 11:04:09 AM
- * <dd> 修改人：无
- * <dd> 修改时间：无
- * <dd> 修改备注：无
- * </dl>
- * 
  * @author CYC
  * @see ImportDao
  * @version 1.0

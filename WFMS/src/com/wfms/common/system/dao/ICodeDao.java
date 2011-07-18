@@ -1,6 +1,3 @@
-/**
- * 类型代码管理接口
- */
 package com.wfms.common.system.dao;
 
 import com.wfms.common.dao.GeneralDao;

@@ -1,17 +1,3 @@
-/**
- *******************************************************************************
- * 文件名：ResourceFilter.java
- *
- * 描述�?
- * 
- * 创建日期：Mar 3, 2010 4:36:56 PM
- * 
- * 本系统是商用软件，未经授权擅自复制或传播本程序的部分或全部将是非法的
- *
- *  Copyright 2009 足下科技, Inc. All rights reserved.
- *
- *******************************************************************************
- */
 package com.wfms.common.filter;
 
 import java.io.IOException;
@@ -23,21 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import javax.servlet.Filter;    
-import javax.servlet.FilterConfig;    
-import javax.servlet.ServletRequest;    
-import javax.servlet.ServletResponse;    
-import javax.servlet.FilterChain;    
-import javax.servlet.ServletException;    
 import javax.servlet.http.HttpServletRequest;    
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.io.IOException;    
 import java.util.Iterator;    
 import java.util.Set;    
 import java.util.HashSet;    
-//    
+
 import org.apache.commons.logging.Log;    
 import org.apache.commons.logging.LogFactory;    
    
