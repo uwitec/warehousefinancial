@@ -1,7 +1,5 @@
 package com.wfms.common.function.attribute;
 
-
-
 public class FusionChart {
 	
 	private String caption;//一行标题

@@ -1,26 +1,7 @@
 package com.wfms.common.function.web;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import xuner.web.mvc.MvcUtil;
-
-import com.wfms.common.attribute.BaseTree;
-import com.wfms.common.attribute.Tree;
-import com.wfms.common.util.JSONUtil;
-import com.wfms.common.util.StringUtil;
-import com.wfms.common.util.TreeUtil;
 
 @Controller
 @RequestMapping("/common/organize_manage/*")

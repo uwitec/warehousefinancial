@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.wfms.common.function.dao.impl;
 
 import java.util.HashMap;

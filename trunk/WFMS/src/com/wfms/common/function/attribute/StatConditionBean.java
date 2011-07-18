@@ -1,6 +1,5 @@
 package com.wfms.common.function.attribute;
 
-
 public class StatConditionBean {
 	private String rowKeyType;
 	private Object rowObjects;

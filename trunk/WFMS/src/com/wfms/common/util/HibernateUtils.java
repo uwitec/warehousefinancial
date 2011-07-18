@@ -19,7 +19,6 @@ import org.hibernate.transform.ResultTransformer;
 import org.springframework.util.Assert;
 
 import com.wfms.common.orm.BaseEntity;
-import com.wfms.common.orm.CommonEntity;
 import com.wfms.common.orm.Condition;
 import com.wfms.common.orm.Page;
 import com.wfms.common.orm.Rule;

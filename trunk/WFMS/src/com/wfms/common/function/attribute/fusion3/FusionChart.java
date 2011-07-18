@@ -54,7 +54,4 @@ public class FusionChart {
 	public void setData(List<Data> data) {
 		this.data = data;
 	}
-
-
-
 }

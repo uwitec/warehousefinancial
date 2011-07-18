@@ -1,9 +1,6 @@
 package com.wfms.common.util;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 public class JString {
 	private static ArrayList pinyin = new ArrayList(395);

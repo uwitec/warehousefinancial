@@ -36,17 +36,6 @@ import com.wfms.common.dao.ExtDao;
 import com.wfms.common.function.dao.IDataExportDao;
 
 /**
- * 
- * <dl>  Description
- *  <dd> 项目名称：数字化校园信息平台ECMS
- *  <dd> 类名称：DataExportDAO
- *  <dd> 类描述：通用数据导出类（from db to excel）
- *  <dd> 创建人：Administrator
- *  <dd> 创建时间：Mar 4, 2010 2:00:39 PM
- *  <dd> 修改人：无
- *  <dd> 修改时间：无
- *  <dd> 修改备注：无
- * </dl>
  * @author CYC
  * @see DataExportDAO
  * @version 1.0

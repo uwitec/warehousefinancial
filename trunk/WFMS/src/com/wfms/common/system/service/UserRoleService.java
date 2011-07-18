@@ -1,6 +1,5 @@
 package com.wfms.common.system.service;
 
-
 import org.springframework.stereotype.Service;
 
 import com.wfms.common.dao.BaseDao;

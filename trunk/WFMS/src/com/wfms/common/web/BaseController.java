@@ -34,7 +34,6 @@ import xuner.web.mvc.MvcUtil;
 
 import com.wfms.common.dao.GeneralService;
 import com.wfms.common.orm.BaseEntity;
-import com.wfms.common.orm.CommonEntity;
 import com.wfms.common.orm.Page;
 import com.wfms.common.util.JSONUtil;
 import com.wfms.common.util.MVCUtil;
