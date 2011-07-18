@@ -1,9 +1,12 @@
 package com.wfms.common.system.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wfms.common.dao.GeneralService;
 import com.wfms.common.system.entity.RoleGenInfo;
 import com.wfms.common.web.BaseController;
 
@@ -12,6 +15,10 @@ import com.wfms.common.web.BaseController;
 @RequestMapping("/system/role_manage/*")
 public class RoleController extends BaseController<RoleGenInfo>{
 	
-	
+	@Override
+	@Autowired
+	public void setBaseService(@Qualifier("roleService")GeneralService<RoleGenInfo> baseService) {
+		super.setBaseService(baseService);
+	}
 	
 }
