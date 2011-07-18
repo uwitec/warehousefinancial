@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    
+    <title>欢迎使用WFMS</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	
+	<link rel="stylesheet" href="ext4/resources/css/ext-all.css" type="text/css"/>
+	<link rel="stylesheet" href="css/website.css" type="text/css"></link>
+  	
+  	
+  	<style type="text/css">
+            #loading-mask{
+	            position:absolute;
+	            left:0;
+	            top:0;
+                width:100%;
+                height:100%;
+                z-index:20000;
+                background-color:white !important;
+            }
+            #loading{
+                border : 1px solid #99bbe8;
+	            position:absolute;
+	            left:40%;
+	            top:40%;
+	            padding:2px;
+	            z-index:20001;
+	            width : 250px;
+                height:auto;
+            }
+            #loading img {
+                margin-bottom:5px;
+            }
+            #loading .loading-indicator{
+	            background:white;
+	            border:1px solid #c1d1d6;
+	            color:#555;
+	            font:bold 13px helvetica,arial,tahoma,sans-serif;
+	            padding:10px;
+	            margin:0;
+                text-align:center;
+                height:auto;
+            }
+            
+            .loading-indicator {
+                font-size:11px;
+                background-image:url("ext4/resources/themes/images/default/grid/loading.gif");
+                background-repeat: no-repeat;
+                background-position:top left;
+                padding-left:20px;
+	            height:18px;
+	            text-align:left;
+            }
+            
+            .loginUser{ 
+			    background-image:url("images/user.gif") !important; 
+			    background-repeat:no-repeat; 
+			    background-position:left; 
+			    padding-left:18px;
+		    }    		
+		    .loginKey{ 
+			    background-image:url("images/key.gif") !important; 			
+			    background-repeat:no-repeat; 
+			    background-position:left; 
+			    padding-left:18px;
+		    }      
+		    .verifyKey{
+            	background-image:url("<%=request.getContextPath()%>/keel/images/verifyKey.gif");
+            	background-repeat:no-repeat; 
+			    background-position:left; 
+			    padding-left:18px;
+            }      
+	    </style>
+  	</head>
+  
+  <body>
+	<div id="loading-mask" style="width:100%;height:100%;background:#f1f1f1;position:absolute;z-index:20000;left:0;top:0;">&#160;</div> 
+     <div id="loading">
+       <div class="loading-indicator">
+       <div>欢迎使用WFMS</div>
+       <img alt="" src="ext4/resources/themes/images/default/grid/wait.gif" width="18" height="18" align="absmiddle"/>
+       &#160;<span id="load-status" style="font-weight : normal;">正在加载基本模块...</span><br/>
+       <span style="font-weight : normal;">请稍候</span>
+       </div>
+     </div>
+     
+    <script type="text/javascript" src="ext4/ext-all.js"></script>
+    <script type="text/javascript" src="ext4/ext-lang-zh_CN.js"></script>
+  	<script type="text/javascript" src="js/lib/wfms-util.js"></script>
+  	<script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript">Ext.get('load-status').update('正在载入登录会话...');</script>
+    <script type="text/javascript">	
+	    Ext.onReady(initLogin);
+	</script>
+  </body>
+</html>
