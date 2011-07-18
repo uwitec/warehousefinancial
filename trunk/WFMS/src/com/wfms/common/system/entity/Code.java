@@ -1,102 +1,111 @@
 package com.wfms.common.system.entity;
 
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.wfms.common.orm.BaseEntity;
 
-// default package
-
 /**
- * LxdmEntity entity.
+ * 类型代码
  * 
- * @author MyEclipse Persistence Tools
+ * @author CYC
+ * 
  */
-
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "CODE_GENINF")
 public class Code extends BaseEntity {
+	private CodeGroup codeGroup;
+	private String code;
+	private String shortName;
+	private String name;
+	private String gb;
+	private String systemCode;
+	private String remark;
+	private String parentID;
 
-	private String lxdm;
-	private String dmmc;
-	private String sjlxdm;
-	private String dmjc;
-	private String sfkbj;
-	private String mkmc;
-	private String gbdm;
-
-	public String getGbdm() {
-		return gbdm;
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JoinColumn(name = "GROUPID")
+	public CodeGroup getCodeGroup() {
+		return codeGroup;
 	}
 
-	public void setGbdm(String gbdm) {
-		this.gbdm = gbdm;
+	public void setCodeGroup(CodeGroup codeGroup) {
+		this.codeGroup = codeGroup;
 	}
 
-	public Code() {
+	@Column(name = "SHORTNAME", length = 32)
+	public String getShortName() {
+		return shortName;
 	}
 
-	public Code(String lxdm, String dmmc, String sjlxdm, String sfkbj) {
-		this.lxdm = lxdm;
-		this.dmmc = dmmc;
-		this.sjlxdm = sjlxdm;
-		this.sfkbj = sfkbj;
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
-	/** full constructor */
-	public Code(String lxdm, String dmmc, String sjlxdm, String dmjc,
-			String sfkbj, String mkmc) {
-		this.lxdm = lxdm;
-		this.dmmc = dmmc;
-		this.sjlxdm = sjlxdm;
-		this.dmjc = dmjc;
-		this.sfkbj = sfkbj;
-		this.mkmc = mkmc;
+	@Column(name = "NAME")
+	public String getName() {
+		return name;
 	}
 
-	// Property accessors
-
-	public String getLxdm() {
-		return this.lxdm;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setLxdm(String lxdm) {
-		this.lxdm = lxdm;
+	@Column(name = "GB", length = 32)
+	public String getGb() {
+		return gb;
 	}
 
-	public String getDmmc() {
-		return this.dmmc;
+	public void setGb(String gb) {
+		this.gb = gb;
 	}
 
-	public void setDmmc(String dmmc) {
-		this.dmmc = dmmc;
+	@Column(name = "MEMO")
+	public String getRemark() {
+		return remark;
 	}
 
-	public String getSjlxdm() {
-		return this.sjlxdm;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public void setSjlxdm(String sjlxdm) {
-		this.sjlxdm = sjlxdm;
+	@Column(name = "PARENTID")
+	public String getParentID() {
+		return parentID;
 	}
 
-	public String getDmjc() {
-		return this.dmjc;
+	public void setParentID(String parentID) {
+		this.parentID = parentID;
 	}
 
-	public void setDmjc(String dmjc) {
-		this.dmjc = dmjc;
+	@Column(name = "ISSYSTEMCODE")
+	public String getSystemCode() {
+		return systemCode;
 	}
 
-	public String getSfkbj() {
-		return this.sfkbj;
+	public void setSystemCode(String systemCode) {
+		this.systemCode = systemCode;
 	}
 
-	public void setSfkbj(String sfkbj) {
-		this.sfkbj = sfkbj;
+	@Column(name = "CODE", length = 32)
+	public String getCode() {
+		return code;
 	}
 
-	public String getMkmc() {
-		return this.mkmc;
-	}
-
-	public void setMkmc(String mkmc) {
-		this.mkmc = mkmc;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

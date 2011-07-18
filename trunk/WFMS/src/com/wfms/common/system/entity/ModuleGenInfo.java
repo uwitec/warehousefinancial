@@ -1,141 +1,78 @@
 package com.wfms.common.system.entity;
 
-// default package
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import com.wfms.common.orm.BaseEntity;
 
-/**
- * ModuleGenInfo entity.
- * 
- * @author MyEclipse Persistence Tools
- */
 @Entity
 @Table(name = "MODULE_GENINF", uniqueConstraints = {})
 public class ModuleGenInfo extends BaseEntity {
 
-	// Fields
-
-	private int moduleId;
-	private int parentId;
-	private String name;
-	private String forwardPage;
-	private String hasChild;
-	private String honeticize;
+	private String parentid;
+	private String modulename;
+	private String phoneticize;
+	private String forwardpage;
+	private String createtime;
 	private String description;
-	private RightGenInfo right;
-	private int rightType;
+	private String memo;
+	private Set<RoleModule> roleModules = new HashSet<RoleModule>(0);
+	private Set<UserModule> memModules = new HashSet<UserModule>(0);
 
-	public ModuleGenInfo(){}
-	
-	public ModuleGenInfo(int moduleId)
-	{
-		this.moduleId = moduleId;
-	}
-	
-	@Transient
-	public int getRightType() {
-		return rightType;
+	@Column(name = "PARENTID", length = 32)
+	public String getParentid() {
+		return this.parentid;
 	}
 
-	public void setRightType(int rightType) {
-		this.rightType = rightType;
+	public void setParentid(String parentid) {
+		this.parentid = parentid;
 	}
 
-	@OneToOne(mappedBy="module",fetch=FetchType.EAGER)
-	@NotFound(action=NotFoundAction.IGNORE)
-	public RightGenInfo getRight() {
-		return right;
+	@Column(name = "MODULENAME", nullable = false, length = 32)
+	public String getModulename() {
+		return this.modulename;
 	}
 
-	public void setRight(RightGenInfo right) {
-		this.right = right;
+	public void setModulename(String modulename) {
+		this.modulename = modulename;
 	}
 
-	/*@Transient
-	@ManyToOne(optional = true, targetEntity = ModuleGenInfo.class,fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
-	@JoinColumn(name = "parentId")
-	//@NotFound(action = NotFoundAction.IGNORE)
-	public ModuleGenInfo getParent() {
-		return parent;
+	@Column(name = "PHONETICIZE", length = 32)
+	public String getPhoneticize() {
+		return this.phoneticize;
 	}
 
-	public void setParent(ModuleGenInfo parent) {
-		this.parent = parent;
-	}*/
-
-	/** minimal constructor */
-	public ModuleGenInfo(int moduleId, String name, String hasChild,
-			String honeticize) {
-		this.moduleId = moduleId;
-		this.name = name;
-		this.hasChild = hasChild;
-		this.honeticize = honeticize;
+	public void setPhoneticize(String phoneticize) {
+		this.phoneticize = phoneticize;
 	}
 
-	/** full constructor */
-	public ModuleGenInfo(int moduleId, int parentId, String name,
-			String hasChild, String honeticize, String description) {
-		this.moduleId = moduleId;
-		this.parentId = parentId;
-		this.name = name;
-		this.hasChild = hasChild;
-		this.honeticize = honeticize;
-		this.description = description;
+	@Column(name = "FORWARDPAGE", nullable = false, length = 128)
+	public String getForwardpage() {
+		return this.forwardpage;
 	}
 
-	// Property accessors
-
-	@Column(name = "ParentID", unique = false, nullable = true, insertable = true, updatable = true, precision = 10, scale = 0)
-	public int getParentId() {
-		return this.parentId;
+	public void setForwardpage(String forwardpage) {
+		this.forwardpage = forwardpage;
 	}
 
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
+	@Column(name = "CREATETIME", length = 20)
+	public String getCreatetime() {
+		return this.createtime;
 	}
 
-	@Column(name = "Name", unique = false, nullable = false, insertable = true, updatable = true, length = 250)
-	public String getName() {
-		return this.name;
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "hasChild", unique = false, nullable = false, insertable = true, updatable = true, length = 1)
-	public String getHasChild() {
-		return this.hasChild;
-	}
-
-	public void setHasChild(String hasChild) {
-		this.hasChild = hasChild;
-	}
-
-	@Column(name = "Honeticize", unique = false, nullable = false, insertable = true, updatable = true, length = 20)
-	public String getHoneticize() {
-		return this.honeticize;
-	}
-
-	public void setHoneticize(String honeticize) {
-		this.honeticize = honeticize;
-	}
-
-	@Column(name = "Description", unique = false, nullable = true, insertable = true, updatable = true, length = 512)
+	@Column(name = "DESCRIPTION", length = 64)
 	public String getDescription() {
 		return this.description;
 	}
@@ -144,30 +81,31 @@ public class ModuleGenInfo extends BaseEntity {
 		this.description = description;
 	}
 
-	@Column(name="forwardPage",length=256,nullable=false)
-	public String getForwardPage() {
-		return forwardPage;
+	@Column(name = "MEMO", length = 128)
+	public String getMemo() {
+		return this.memo;
 	}
 
-	public void setForwardPage(String forwardPage) {
-		this.forwardPage = forwardPage;
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
-	public void setModuleId(int moduleId) {
-		this.moduleId = moduleId;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "module")
+	public Set<RoleModule> getRoleModules() {
+		return this.roleModules;
 	}
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE,generator="webdemo_gen")
-	@TableGenerator(name="webdemo_gen",
-			table="tb_generator",
-			pkColumnName="gen_name",
-			valueColumnName="gen_value",
-			pkColumnValue="module_pk",
-			allocationSize=1)
-	@Column(name = "ModuleID", unique = true, nullable = false, insertable = true, updatable = true, precision = 10, scale = 0)
-	public int getModuleId() {
-		return moduleId;
+	public void setRoleModules(Set<RoleModule> roleModules) {
+		this.roleModules = roleModules;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "module")
+	public Set<UserModule> getMemModules() {
+		return this.memModules;
+	}
+
+	public void setMemModules(Set<UserModule> memModules) {
+		this.memModules = memModules;
 	}
 
 }
