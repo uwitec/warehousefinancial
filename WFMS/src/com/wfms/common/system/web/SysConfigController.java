@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wfms.common.dao.GeneralService;
+import com.wfms.common.dao.BaseService;
 import com.wfms.common.system.entity.SysConfig;
 import com.wfms.common.web.BaseController;
 
@@ -16,7 +16,7 @@ import com.wfms.common.web.BaseController;
 public class SysConfigController extends BaseController<SysConfig>{
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("sysConfigService")GeneralService<SysConfig> baseService) {
+	public void setBaseService(@Qualifier("sysConfigService")BaseService<SysConfig> baseService) {
 		super.setBaseService(baseService);
 	}
 }

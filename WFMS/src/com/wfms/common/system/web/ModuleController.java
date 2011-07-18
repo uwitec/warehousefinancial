@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wfms.common.dao.GeneralService;
+import com.wfms.common.dao.BaseService;
 import com.wfms.common.system.entity.ModuleGenInfo;
 import com.wfms.common.web.BaseController;
 
@@ -16,7 +16,7 @@ import com.wfms.common.web.BaseController;
 public class ModuleController extends BaseController<ModuleGenInfo> {
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("moduleService")GeneralService<ModuleGenInfo> baseService) {
+	public void setBaseService(@Qualifier("moduleService")BaseService<ModuleGenInfo> baseService) {
 		super.setBaseService(baseService);
 	}
 }

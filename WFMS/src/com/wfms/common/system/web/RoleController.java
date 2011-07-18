@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wfms.common.dao.GeneralService;
+import com.wfms.common.dao.BaseService;
 import com.wfms.common.system.entity.RoleGenInfo;
 import com.wfms.common.web.BaseController;
 
@@ -17,7 +17,7 @@ public class RoleController extends BaseController<RoleGenInfo>{
 	
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("roleService")GeneralService<RoleGenInfo> baseService) {
+	public void setBaseService(@Qualifier("roleService")BaseService<RoleGenInfo> baseService) {
 		super.setBaseService(baseService);
 	}
 	
