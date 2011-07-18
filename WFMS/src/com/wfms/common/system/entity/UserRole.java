@@ -2,51 +2,31 @@ package com.wfms.common.system.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import com.wfms.common.orm.BaseEntity;
 
 @Entity
-@Table(name="ROL_MEM"
-, uniqueConstraints = {  }
-)
-@IdClass(RoleMemberPK.class)
+@Table(name = "ROL_MEM", uniqueConstraints = {})
+public class UserRole extends BaseEntity {
 
-public class UserRole extends BaseEntity{
-
+	private User user;
 	private RoleGenInfo role;
-	private User member;
 
-	
-	//@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-	//@JoinColumn(name = "MEMID", unique = false, nullable = false, insertable = true, updatable = true)
-	@Id
-	@ManyToOne(fetch=FetchType.EAGER)
-	/*@JoinTable(name="ROL_MEM",joinColumns={@JoinColumn(name="MEMID")},
-	    	inverseJoinColumns={@JoinColumn(name="ROLID")})*/
-	@NotFound(action=NotFoundAction.IGNORE)
-	public User getMember() {
-		return member;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MEM_ID", nullable = false)
+	public User getUser() {
+		return user;
 	}
 
-	public void setMember(User member) {
-		this.member = member;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	
-	//@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-	//@JoinColumn(name = "ROLID", unique = false, nullable = false, insertable = true, updatable = true)
-	@Id
-	@ManyToOne(fetch=FetchType.EAGER)
-	/*@JoinTable(name="ROL_MEM",joinColumns={@JoinColumn(name="ROLID")},
-	    	inverseJoinColumns={@JoinColumn(name="MEMID")})
-	@NotFound(action=NotFoundAction.IGNORE)*/
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ROLE_ID", nullable = false)
 	public RoleGenInfo getRole() {
 		return role;
 	}
@@ -54,5 +34,4 @@ public class UserRole extends BaseEntity{
 	public void setRole(RoleGenInfo role) {
 		this.role = role;
 	}
-
 }
