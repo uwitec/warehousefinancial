@@ -1,0 +1,51 @@
+.addUser{
+	background-image: url(../images/addUser.gif) !important;
+}
+
+.editUser{
+	background-image: url(../images/editUser.gif) !important;
+}
+
+.deleteUser{
+	background-image: url(../images/deleteUser.gif) !important;
+}
+
+.add{
+	background-image: url(../images/add.gif) !important;
+}
+
+.edit{
+	background-image: url(../images/edit.gif) !important;
+}
+
+.stop{
+	background-image: url(../images/stop.gif) !important;
+}
+
+.active{
+	background-image: url(../images/active.gif) !important;
+}
+
+.x-action-col-cell img {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+.x-action-col-cell img.stop-col {
+    background-image: url(../images/active.gif);
+}
+.x-action-col-cell img.active-col {
+    background-image: url(../images/stop.gif);
+}
+
+.delete{
+	background-image: url(../images/delete.gif) !important;
+}
+
+.refresh{
+	background-image: url(../images/reload.gif) !important;
+}
+
+.sort{
+	background-image: url(../images/sort.gif) !important;
+}
