@@ -199,20 +199,20 @@ public class DefaultDataImportHandler extends DataImportHandler {
 						if (nbsjckzd != null && !"".equals(nbsjckzd)) {
 							if (LxdmType.LXDM.equals(nbsjckzd)) {
 								fieldValueMap.put(drgz.getZdmc(), lxdm
-										.getLxdm());
+										.getCode());
 							} else if (LxdmType.DMMC.equals(nbsjckzd)) {
 								fieldValueMap.put(drgz.getZdmc(), lxdm
-										.getDmmc());
+										.getName());
 							} else if (LxdmType.DMJC.equals(nbsjckzd)) {
 								fieldValueMap.put(drgz.getZdmc(), lxdm
-										.getDmjc());
+										.getShortName());
 							}
 						} else if (LxdmType.LXDM.equals(lxdmType)) {
-							fieldValueMap.put(drgz.getZdmc(), lxdm.getLxdm());
+							fieldValueMap.put(drgz.getZdmc(), lxdm.getCode());
 						} else if (LxdmType.DMMC.equals(lxdmType)) {
-							fieldValueMap.put(drgz.getZdmc(), lxdm.getDmmc());
+							fieldValueMap.put(drgz.getZdmc(), lxdm.getName());
 						} else if (LxdmType.DMJC.equals(lxdmType)) {
-							fieldValueMap.put(drgz.getZdmc(), lxdm.getDmjc());
+							fieldValueMap.put(drgz.getZdmc(), lxdm.getShortName());
 						}
 					}
 				}
