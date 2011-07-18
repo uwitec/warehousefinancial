@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wfms.common.dao.BaseService;
 import com.wfms.common.dao.GeneralService;
 import com.wfms.common.system.entity.Code;
 import com.wfms.common.web.BaseController;
@@ -20,7 +21,7 @@ public class CodeController extends BaseController<Code>{
 
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("codeService")GeneralService<Code> baseService) {
+	public void setBaseService(@Qualifier("codeService")BaseService<Code> baseService) {
 		super.setBaseService(baseService);
 	}
 	
