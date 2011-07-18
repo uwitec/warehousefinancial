@@ -1,4 +1,5 @@
 package com.wfms.common.system.entity;
+
 // default package
 
 import java.util.HashSet;
@@ -13,15 +14,14 @@ import javax.persistence.Table;
 
 import com.wfms.common.orm.BaseEntity;
 
-
 /**
- * RolGenInfo entity. @author MyEclipse Persistence Tools
+ * RolGenInfo entity.
+ * 
+ * @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name="ROL_GENINF"
-, uniqueConstraints = {  }
-)
-public class RoleGenInfo  extends  BaseEntity {
+@Table(name = "ROL_GENINF", uniqueConstraints = {})
+public class RoleGenInfo extends BaseEntity {
 
 	private String rolename;
 	private String deptId;
@@ -75,7 +75,7 @@ public class RoleGenInfo  extends  BaseEntity {
 		this.userRoles = userRoles;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "roleGeninf")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
 	public Set<RoleModule> getRoleModules() {
 		return this.roleModules;
 	}
@@ -84,5 +84,4 @@ public class RoleGenInfo  extends  BaseEntity {
 		this.roleModules = roleModules;
 	}
 
-	
 }

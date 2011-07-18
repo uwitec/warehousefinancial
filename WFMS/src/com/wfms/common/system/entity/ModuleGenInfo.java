@@ -98,7 +98,7 @@ public class ModuleGenInfo extends BaseEntity {
 		this.roleModules = roleModules;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "module")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<UserModule> getMemModules() {
 		return this.memModules;
 	}
