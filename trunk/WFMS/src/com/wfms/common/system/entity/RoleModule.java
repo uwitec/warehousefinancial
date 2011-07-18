@@ -7,9 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.wfms.common.orm.BaseEntity;
+
 @Entity
 @Table(name = "ROLE_MODULE", schema = "dbo", catalog = "wfms")
-public class RoleModule implements java.io.Serializable {
+public class RoleModule extends BaseEntity {
 
 	private RoleGenInfo role;
 	private ModuleGenInfo module;

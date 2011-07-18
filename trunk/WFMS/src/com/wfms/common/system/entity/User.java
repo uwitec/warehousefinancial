@@ -1,6 +1,5 @@
 package com.wfms.common.system.entity;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 
 import com.wfms.common.orm.BaseEntity;
 
@@ -39,8 +37,7 @@ public class User extends BaseEntity {
 	private String roleId;
 	private String identityid;
 	private String memo;
-	private Set<UserRole> memRoles = new HashSet<UserRole>(0);
-	private Set<DepartGenInfo> depart = new HashSet<DepartGenInfo>(0);
+	private Set<UserRole> memberRoles = new HashSet<UserRole>(0);
 	private Set<UserModule> userModules = new HashSet<UserModule>(0);
 
 	// Constructors
@@ -234,31 +231,22 @@ public class User extends BaseEntity {
 		this.memo = memo;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
-	public Set<UserRole> getMemRoles() {
-		return memRoles;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<UserRole> getMemberRoles() {
+		return memberRoles;
 	}
 
-	public void setMemRoles(Set<UserRole> memRoles) {
-		this.memRoles = memRoles;
+	public void setMemberRoles(Set<UserRole> memberRoles) {
+		this.memberRoles = memberRoles;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<UserModule> getUserModules() {
 		return userModules;
 	}
 
 	public void setUserModules(Set<UserModule> userModules) {
 		this.userModules = userModules;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
-	public Set<DepartGenInfo> getDepart() {
-		return depart;
-	}
-
-	public void setDepart(Set<DepartGenInfo> depart) {
-		this.depart = depart;
 	}
 
 }
