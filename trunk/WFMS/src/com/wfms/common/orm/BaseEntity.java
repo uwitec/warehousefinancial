@@ -18,7 +18,7 @@ public class BaseEntity implements Serializable{
 	@Id
 	@GeneratedValue(generator = "pk")
 	@Column(name = "ID")
-	@GenericGenerator(name = "pk", strategy = "adtech.com.orm.IdGenerator")
+	@GenericGenerator(name = "pk", strategy = "com.wfms.common.orm.IdGenerator")
 	public String getId() {
 		return id;
 	}
