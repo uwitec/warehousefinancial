@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 
 import com.wfms.common.system.constant.Constant;
 import com.wfms.common.system.entity.User;
-import com.wfms.common.web.SessionManager;
+import com.wfms.common.system.web.SessionManager;
 
 public class SessionFilter implements Filter {
 
