@@ -32,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import xuner.web.mvc.MvcUtil;
 
-import com.wfms.common.dao.GeneralService;
+import com.wfms.common.dao.BaseService;
 import com.wfms.common.orm.BaseEntity;
 import com.wfms.common.orm.Page;
 import com.wfms.common.util.JSONUtil;
@@ -76,12 +76,12 @@ public abstract class BaseController<T extends BaseEntity> {
 
 	public static final String successView = "/common/success.jsp";
 
-	protected GeneralService<T> baseService;
+	protected BaseService<T> baseService;
 
 	/**
 	 * 注入Service
 	 */
-	public void setBaseService(GeneralService<T> baseService) {
+	public void setBaseService(BaseService<T> baseService) {
 		this.baseService = baseService;
 	}
 
@@ -102,7 +102,7 @@ public abstract class BaseController<T extends BaseEntity> {
 	 * 
 	 * @return
 	 */
-	protected GeneralService<T> getEntityService() {
+	protected BaseService<T> getEntityService() {
 		return baseService;
 	}
 
