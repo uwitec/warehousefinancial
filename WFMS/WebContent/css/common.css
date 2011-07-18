@@ -1,0 +1,10 @@
+.openLinkLoading div{
+    padding:5px 10px 5px 25px;
+    background:no-repeat 5px 5px;
+    line-height:16px;
+    background-color:#fbfbfb;
+    background-image: url(../images/loading.gif);
+}
+.vaildcode_img{
+	margin:-28px 0px 0px 280px;
+}
