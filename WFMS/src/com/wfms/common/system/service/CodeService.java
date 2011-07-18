@@ -14,7 +14,8 @@
  */
 package com.wfms.common.system.service;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.wfms.common.dao.BaseDao;
@@ -22,12 +23,13 @@ import com.wfms.common.dao.BaseService;
 import com.wfms.common.system.entity.Code;
 
 @Service
-public class CodeService extends BaseService<Code>{
+public class CodeService extends BaseService<Code> {
 
 	@Override
-	public void setBaseDao(BaseDao<Code> paramBaseDao) {
-		
+	@Autowired
+	public void setBaseDao(@Qualifier("codeDao")
+	BaseDao<Code> paramBaseDao) {
+		this.baseDao = paramBaseDao;
 	}
-
 
 }
