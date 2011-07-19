@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.wfms.common.orm.BaseEntity;
 
 @Entity
-@Table(name = "MEMBER_RIGHT", uniqueConstraints = {})
+@Table(name = "MEM_MODULE", uniqueConstraints = {})
 public class UserModule extends BaseEntity {
 
 	private String id;

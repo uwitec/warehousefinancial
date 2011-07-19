@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import com.wfms.common.orm.BaseEntity;
 
 @Entity
-@Table(name = "ROL_MEM", uniqueConstraints = {})
+@Table(name = "MEM_ROLE", uniqueConstraints = {})
 public class UserRole extends BaseEntity {
 
 	private User user;
