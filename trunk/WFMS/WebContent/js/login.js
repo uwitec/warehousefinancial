@@ -13,10 +13,10 @@ Ext.define('wfms.LoginWin', {
 		region : 'center',		
 		border : false,
 		bodyPadding: 20,			
-		defaults : {selectOnFocus:true,msgTarget: 'side',xtype:'textfield',maxLength:45,allowBlank:false,labelAlign : 'right'},
+		defaults : {selectOnFocus:true,msgTarget: 'side',xtype:'textfield',maxLength:45,/*allowBlank:false,*/labelAlign : 'right'},
 		items: [{
 	        fieldLabel: '账号',
-	        name: 'userName',
+	        name: 'loginId',
 	        fieldCls : 'loginUser',
 	        anchor:'90%',
 	        listeners : {
@@ -36,10 +36,40 @@ Ext.define('wfms.LoginWin', {
 	        }
 	    },{
 	        fieldLabel: '密码',
-	        name: 'password',
+	        name: 'loginPwd',
 	        inputType : 'password',
 	        fieldCls : 'loginKey',
 	        anchor:'90%',
+	        listeners : {
+	        	'afterrender':function(o){
+	        		new Ext.util.KeyMap(o.el, {
+					    key: 13,
+					    fn: function(){
+					    	if(o.isValid()){
+			        			o.nextSibling().focus(true,true);
+			        		}else{
+			        			o.focus(true,true);
+			        		}
+					    },
+					    scope: o
+					});		        		
+	        	},scope:this
+	        }
+	    },{
+	    	xtype:'combo',
+	    	fieldLabel: '登录到',
+	    	//editable : false,
+	    	name : 'url',
+	    	anchor:'90%',
+		    store: Ext.create('Ext.data.Store',{
+		    	fields: ['url', 'name'],
+			    data : [
+			        {"url":"/index.html", "name":"后台管理模块"}
+			    ]
+		    }),
+		    queryMode: 'local',
+		    displayField: 'name',
+		    valueField: 'url',
 	        listeners : {
 	        	'afterrender':function(o){
 	        		new Ext.util.KeyMap(o.el, {
@@ -60,8 +90,8 @@ Ext.define('wfms.LoginWin', {
 	        name: 'verify',
 	        fieldCls : 'verifyKey',
 	        width : 250,
-	        maxLength : 4,
-	        minLength : 4,
+	        //maxLength : 4,
+	        //minLength : 4,
 	        listeners : {
 	        	'afterrender':function(o){
 	        		var bd = o.getEl().dom;
@@ -105,14 +135,14 @@ Ext.define('wfms.LoginWin', {
 				{text:'登录',scope:this,handler:function(){this.login();}},
 				{text:'清空',scope:this,name:'reset',handler:function(){
 					this.down('form').getForm().reset();
-					this.down('form').getForm().findField('userName').focus(true,true);
+					this.down('form').getForm().findField('loginId').focus(true,true);
 				}}
 			]
 	    });
         this.callParent();
         //keel.LoginWin.superclass.initComponent.call(this);
         this.on('show',function(){
-        	this.down('form').getForm().findField('userName').focus(true,true);
+        	this.down('form').getForm().findField('loginId').focus(true,true);
         },this);
     },
     login : function(){
@@ -125,6 +155,7 @@ Ext.define('wfms.LoginWin', {
 			params.methodName = 'login';
 			params.action = 'login';
 			wfms.openLink({
+				url:'system/user_manage/login.do',
 				params : params,
 				scope : this,
 				onSuccess : function(rs,opts){
@@ -134,7 +165,7 @@ Ext.define('wfms.LoginWin', {
 				},
 				onFailure : function(rs,opts,btn){
 					reloadvaildcode();
-					this.down('form').getForm().findField('userName').focus(true,true);
+					this.down('form').getForm().findField('loginId').focus(true,true);
 					this.down('form').getForm().findField('verify').reset();
 					this.el.unmask();
 					this.down('button').setDisabled(false);
