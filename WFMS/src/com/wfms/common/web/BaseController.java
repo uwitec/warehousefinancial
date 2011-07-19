@@ -419,6 +419,7 @@ public abstract class BaseController<T extends BaseEntity> {
 
 		Map<String, Object> model = new HashMap<String, Object>(1);
 		model.put("data", entity);
+		model.put("success", true);
 		JSONObject obj = JSONObject.fromObject(model,
 				JSONUtil.baseFilterConfig());
 		ModelAndView mav = MVCUtil.jsonObjectModelAndView(obj);
