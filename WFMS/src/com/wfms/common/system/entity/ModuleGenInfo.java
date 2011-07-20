@@ -22,6 +22,7 @@ public class ModuleGenInfo extends BaseEntity {
 	private String forwardpage;
 	private String createtime;
 	private String description;
+	private String moduleType;
 	private String memo;
 	private Set<RoleModule> roleModules = new HashSet<RoleModule>(0);
 	private Set<UserModule> memModules = new HashSet<UserModule>(0);
@@ -105,6 +106,15 @@ public class ModuleGenInfo extends BaseEntity {
 
 	public void setMemModules(Set<UserModule> memModules) {
 		this.memModules = memModules;
+	}
+
+	@Column(name = "MODULETYPE", length = 1)
+	public String getModuleType() {
+		return moduleType;
+	}
+
+	public void setModuleType(String moduleType) {
+		this.moduleType = moduleType;
 	}
 
 }
