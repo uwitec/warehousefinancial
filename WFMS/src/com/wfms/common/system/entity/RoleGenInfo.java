@@ -20,7 +20,7 @@ import com.wfms.common.orm.BaseEntity;
  * @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "ROL_GENINF", uniqueConstraints = {})
+@Table(name = "ROLE_GENINF", uniqueConstraints = {})
 public class RoleGenInfo extends BaseEntity {
 
 	private String rolename;
