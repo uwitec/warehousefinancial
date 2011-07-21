@@ -34,7 +34,7 @@ import com.wfms.common.function.dao.IImportDao;
 import com.wfms.common.function.entity.Column;
 import com.wfms.common.function.service.DataImportHandler;
 import com.wfms.common.function.util.ExcelUtil;
-import com.wfms.common.util.BeanConvert;
+import com.wfms.common.util.BeanConvort;
 
 /**
  * @author CYC
@@ -192,7 +192,7 @@ public class DataImportController {
 		List<Column> columns = null;
 		AjaxMsg msg = new AjaxMsg();
 		try {
-			columns = (List<Column>) BeanConvert.boundToArray(
+			columns = (List<Column>) BeanConvort.boundToArray(
 					Column.class, matchColumns);
 		} catch (Exception e1) {
 			e1.printStackTrace();
