@@ -44,7 +44,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
-public class ExtDao extends BaseDao {
+public class ExtDao<T> extends BaseDao {
 
 	@Autowired
 	@Qualifier("sessionFactory")
