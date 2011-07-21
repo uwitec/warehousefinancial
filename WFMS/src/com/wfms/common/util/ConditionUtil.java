@@ -26,7 +26,7 @@ public class ConditionUtil {
 		}
 		return cons;
 	}
-	//龚海棠扩展，config传map对象，字段用什么匹配
+
 	public static List<Condition> format(String strParams,Map<String,Rule> config){
 		if(strParams == null || "".equals(strParams)){
 			return new ArrayList<Condition>();
