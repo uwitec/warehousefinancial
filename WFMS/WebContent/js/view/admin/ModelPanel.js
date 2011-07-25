@@ -4,9 +4,10 @@ Ext.define('wfms.admin.ModelPanel',{
 	layout : 'border',
 	initComponent : function(){
 		this.westStore = Ext.create('Ext.data.TreeStore', {
+			autoLoad:true,
 	        proxy: {
 	            type: 'ajax',
-	            url : wfms.defaultUrl(),
+	            url : 'system/module_manage/userModuleTree.do',
 	            actionMethods : 'post',
 	            extraParams : {clsName:'RgModelAction',methodName:'getModelTree'}
 	        },
