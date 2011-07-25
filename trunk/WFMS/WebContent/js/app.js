@@ -148,12 +148,13 @@ Ext.define('wfms.App',{
                     	loginOutMask.show();
                     	wfms.openLink({
 							scope : this,
+							url:'system/user_manage/loginout.do',
 							params : {clsName : 'LoginAction',methodName : 'logout',action:'logout'},
 							onSuccess : function(rs,opts){
-								window.location.href = wfms.getAppName()+'/index.jsp';
+								window.location.href = wfms.getAppName()+'/';
 							},
 							onFailure : function(rs,opts,btn){
-								window.location.href = wfms.getAppName()+'/index.jsp';
+								//window.location.href = wfms.getAppName()+'/';
 							}			
 						});
             		}            		
