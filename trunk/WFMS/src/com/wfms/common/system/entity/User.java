@@ -37,8 +37,6 @@ public class User extends BaseEntity {
 	private String roleId;
 	private String identityid;
 	private String memo;
-	private Set<UserRole> memberRoles = new HashSet<UserRole>(0);
-	private Set<UserModule> userModules = new HashSet<UserModule>(0);
 
 	// Constructors
 
@@ -231,22 +229,5 @@ public class User extends BaseEntity {
 		this.memo = memo;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<UserRole> getMemberRoles() {
-		return memberRoles;
-	}
-
-	public void setMemberRoles(Set<UserRole> memberRoles) {
-		this.memberRoles = memberRoles;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<UserModule> getUserModules() {
-		return userModules;
-	}
-
-	public void setUserModules(Set<UserModule> userModules) {
-		this.userModules = userModules;
-	}
 
 }
