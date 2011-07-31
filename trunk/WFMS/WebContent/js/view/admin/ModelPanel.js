@@ -13,7 +13,7 @@ Ext.define('wfms.admin.ModelPanel',{
 	        },
 	        root: {
 	        	id : '0',
-	            text: '模块',
+	            text: '仓储财务管理',
 	            expanded: true
 	        }
 	    });
