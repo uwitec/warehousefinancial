@@ -14,6 +14,58 @@ Ext.define('wfms.admin.MainPanel',{
 	extend : 'Ext.container.Viewport',
 	layout : 'border',	
 	initComponent : function(){
+		this.westStore = Ext.create('Ext.data.TreeStore', {
+			autoLoad:true,
+	        proxy: {
+	            type: 'ajax',
+	            url : 'system/module_manage/userModuleTree.do',
+	            actionMethods : 'post',
+	            extraParams : {clsName:'RgModelAction',methodName:'getModelTree'}
+	        },
+	        root: {
+	        	id : '0',
+	            text: '模块',
+	            expanded: true
+	        }
+	    });
+	    
+		this.functionPanel = Ext.create('Ext.tree.Panel',{
+			margins : '2 2 2 2',
+			region : 'west',
+			title: '菜单',
+		    width: 200,
+		    tools : [
+		    	{name:'refresh',type:'refresh',qtip:'刷新模块树',disabled :true,handler:function(){
+		    		this.west.store.load();
+		    		this.center.store.removeAll();
+		    	},scope:this}
+		    ],
+		    store: this.westStore,
+		    listeners : {
+		    	'afterrender':function(o){
+		    		//o.store.on('beforeload',function(){this.west.down('[name=refresh]').disable();},this);	
+		    		//o.store.on('load',function(ds,records,successful){
+		    			//this.west.down('[name=refresh]').enable();
+		    		//},this);	
+		    	},
+		    	'itemclick':function(view, record, htme, index, e){
+		    		//this.center.store.load({id:record.get('id')});
+		    	},scope:this
+		    },
+		    viewConfig: {
+		        plugins: {
+	                ptype: 'treeviewdragdrop',
+                	appendOnly: true
+	            },
+	            listeners: {
+	                drop: function(node, data, dropRec, dropPosition) {
+	                	var targetId = dropRec.get('id');
+	                	var dropId = data.records[0].get('id');
+	                	this.dropNode(targetId,dropId);
+	                },scope:this
+	            }
+		    }
+		});
 		this.topPanel = Ext.create('Ext.Component',{
 	        region:'north',
 	        el:'header',
@@ -32,7 +84,7 @@ Ext.define('wfms.admin.MainPanel',{
 	       		{xtype:'log4jlist',title:'日志管理'}
 	       	]
 		});
-		this.items = [this.center,this.topPanel];
+		this.items = [this.functionPanel,this.center,this.topPanel];
 		this.callParent();
 		this.on('afterrender',function(){
 			Ext.get('logout-link').on('click',function(){

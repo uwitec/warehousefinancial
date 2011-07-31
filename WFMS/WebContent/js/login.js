@@ -6,7 +6,7 @@ Ext.define('wfms.LoginWin', {
 		margins : '1 1 1 1',
 	    autoEl: {
 	        tag: 'div',
-	        style : 'background-image:url('+APPNAME+'/images/loginimg.jpg)'
+	        style : 'background-image:url('+APPNAME+'/images/loginimg.jpg);background-repeat:no-repeat;overflow:auto;zoom:1;'
 	    }
     }),
     form : Ext.create('Ext.form.Panel',{
