@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.wfms.common.orm.BaseEntity;
 
@@ -20,12 +21,11 @@ public class ModuleGenInfo extends BaseEntity {
 	private String modulename;
 	private String phoneticize;
 	private String forwardpage;
-	private String createtime;
 	private String description;
 	private String moduleType;
+	private Integer siblingOrder;
+	private Integer leaf;
 	private String memo;
-	private Set<RoleModule> roleModules = new HashSet<RoleModule>(0);
-	private Set<UserModule> memModules = new HashSet<UserModule>(0);
 
 	@Column(name = "PARENTID", length = 32)
 	public String getParentid() {
@@ -63,15 +63,6 @@ public class ModuleGenInfo extends BaseEntity {
 		this.forwardpage = forwardpage;
 	}
 
-	@Column(name = "CREATETIME", length = 20)
-	public String getCreatetime() {
-		return this.createtime;
-	}
-
-	public void setCreatetime(String createtime) {
-		this.createtime = createtime;
-	}
-
 	@Column(name = "DESCRIPTION", length = 64)
 	public String getDescription() {
 		return this.description;
@@ -90,24 +81,6 @@ public class ModuleGenInfo extends BaseEntity {
 		this.memo = memo;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "module")
-	public Set<RoleModule> getRoleModules() {
-		return this.roleModules;
-	}
-
-	public void setRoleModules(Set<RoleModule> roleModules) {
-		this.roleModules = roleModules;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<UserModule> getMemModules() {
-		return this.memModules;
-	}
-
-	public void setMemModules(Set<UserModule> memModules) {
-		this.memModules = memModules;
-	}
-
 	@Column(name = "MODULETYPE", length = 1)
 	public String getModuleType() {
 		return moduleType;
@@ -115,6 +88,29 @@ public class ModuleGenInfo extends BaseEntity {
 
 	public void setModuleType(String moduleType) {
 		this.moduleType = moduleType;
+	}
+
+	@Column(name = "SIBLINGORDER")
+	public Integer getSiblingOrder() {
+		return siblingOrder;
+	}
+
+	public void setSiblingOrder(Integer siblingOrder) {
+		this.siblingOrder = siblingOrder;
+	}
+
+	@Transient
+	public boolean isLeaf() {
+		return leaf != 0;
+	}
+
+	@Column(name = "LEAF")
+	public Integer getLeaf() {
+		return leaf;
+	}
+
+	public void setLeaf(Integer leaf) {
+		this.leaf = leaf;
 	}
 
 }

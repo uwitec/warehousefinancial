@@ -1,9 +1,12 @@
 package com.wfms.common.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.wfms.common.attribute.Tree;
+import com.wfms.common.attribute.TreeNode;
+import com.wfms.common.system.entity.ModuleGenInfo;
 
 public class TreeUtil {
 	private static int levelNumber = 0;
@@ -147,5 +150,64 @@ public class TreeUtil {
 
 	public static void resetLevelNumber() {
 		levelNumber = 0;
+	}
+
+	/**
+	 * 初始化树(功能模块必须齐全且正�?)
+	 * 
+	 * @param list
+	 * @return List<TreeNode>
+	 */
+	public static List<TreeNode> initTree(String contextPath,
+			List<ModuleGenInfo> list) {
+		if (list == null) {
+			return null;
+		}
+		List<TreeNode> resultTreeList = new ArrayList<TreeNode>();
+		List<ModuleGenInfo> resultGnmkList = new ArrayList<ModuleGenInfo>();
+		for (int i = 0; i < list.size(); i++) {
+			ModuleGenInfo preantGnmk = list.get(i);
+			if ("0".equals(preantGnmk.getParentid())) {
+				resultGnmkList.add(preantGnmk);
+				list.remove(i);
+				i--;
+			}
+		}
+		for (int i = 0; i < resultGnmkList.size(); i++) {
+			resultTreeList.add(getChildrenNode(contextPath, list,
+					resultGnmkList.get(i)));
+		}
+		return resultTreeList;
+	}
+
+	private static TreeNode getTree(String contextPath, ModuleGenInfo gnmk) {
+		TreeNode tree = new TreeNode();
+		tree.setId(gnmk.getId());
+		tree.setText(gnmk.getModulename());
+		tree.setQtip(gnmk.getDescription());
+		if (gnmk.isLeaf()) {
+			tree.setHref(contextPath + gnmk.getForwardpage());
+		} else {
+			tree.setHref("javascript:void(0);");
+		}
+		tree.setChecked(false);
+		return tree;
+	}
+
+	// 递归方法
+	private static TreeNode getChildrenNode(String contextPath,
+			List<ModuleGenInfo> list, ModuleGenInfo gnmk, String... order) {
+		TreeNode tree = getTree(contextPath, gnmk);
+		// 递归标记
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getParentid().equals(gnmk.getId())) {
+				// 递归调用
+				TreeNode rstree = getChildrenNode(contextPath, list, list
+						.get(i));
+				// 递归标记
+				tree.getChildren().add(rstree);
+			}
+		}
+		return tree;
 	}
 }
