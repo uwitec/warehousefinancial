@@ -186,11 +186,11 @@ public class TreeUtil {
 		tree.setText(gnmk.getModulename());
 		tree.setQtip(gnmk.getDescription());
 		if (gnmk.isLeaf()) {
-			tree.setHref(contextPath + gnmk.getForwardpage());
+			//tree.setHref(contextPath + gnmk.getForwardpage());
 		} else {
-			tree.setHref("javascript:void(0);");
+			//tree.setHref("javascript:void(0);");
 		}
-		tree.setChecked(false);
+		//tree.setChecked(false);
 		return tree;
 	}
 
