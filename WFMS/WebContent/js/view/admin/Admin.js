@@ -24,7 +24,7 @@ Ext.define('wfms.admin.MainPanel',{
 	        },
 	        root: {
 	        	id : '0',
-	            text: '模块',
+	            text: '仓储财务管理系统',
 	            expanded: true
 	        }
 	    });
@@ -32,7 +32,7 @@ Ext.define('wfms.admin.MainPanel',{
 		this.functionPanel = Ext.create('Ext.tree.Panel',{
 			margins : '2 2 2 2',
 			region : 'west',
-			title: '菜单',
+			title: '功能菜单',
 		    width: 200,
 		    tools : [
 		    	{name:'refresh',type:'refresh',qtip:'刷新模块树',disabled :true,handler:function(){
