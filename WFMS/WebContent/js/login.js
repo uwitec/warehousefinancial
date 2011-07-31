@@ -60,6 +60,7 @@ Ext.define('wfms.LoginWin', {
 	    	fieldLabel: '登录到',
 	    	//editable : false,
 	    	name : 'url',
+	    	value:'/index.html',
 	    	anchor:'90%',
 		    store: Ext.create('Ext.data.Store',{
 		    	fields: ['url', 'name'],
@@ -122,7 +123,7 @@ Ext.define('wfms.LoginWin', {
     initComponent: function() {
     	Ext.apply(this,{
 	    	title : '登录',
-			width : 500,
+			width : 378,
 			height : 320,
 			resizable : false,
 			closable : false,
