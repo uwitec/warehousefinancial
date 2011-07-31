@@ -173,7 +173,7 @@ public class BaseDao<T extends BaseEntity> extends HibernateDaoSupport {
 		return this.find(entityClass, page);
 	}
 
-	protected List<?> findAll() {
+	public List<T> find() {
 		return getHibernateTemplate().loadAll(entityClass);
 		// return this.getHibernateTemplate()
 		// .find("FROM " + entityClass.getName());

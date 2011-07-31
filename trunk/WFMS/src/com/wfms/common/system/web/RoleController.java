@@ -17,8 +17,8 @@ public class RoleController extends BaseController<RoleGenInfo>{
 	
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("roleService")BaseService<RoleGenInfo> baseService) {
-		super.setBaseService(baseService);
+	public void setBaseService(@Qualifier("roleService")BaseService<RoleGenInfo> paramService) {
+		this.baseService = paramService;
 	}
 	
 }

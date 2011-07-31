@@ -1,6 +1,7 @@
 package com.wfms.common.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +68,11 @@ public abstract class BaseService<T extends BaseEntity> {
 	@Transactional(readOnly = true)
 	public Page find(Page page) {
 		return getBaseDao().fetch(page);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<T> find(){
+		return getBaseDao().find();
 	}
 	
 	@Transactional(readOnly = true)

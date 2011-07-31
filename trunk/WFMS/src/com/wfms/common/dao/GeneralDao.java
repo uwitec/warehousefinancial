@@ -1,6 +1,7 @@
 package com.wfms.common.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.wfms.common.orm.BaseEntity;
 import com.wfms.common.orm.Page;
@@ -25,6 +26,6 @@ public interface GeneralDao<T extends BaseEntity> {
 	 */
 	public Page find(Page page);
 	
-	public int executeHQLUpdate(String hql, Object param);
+	public List<T> find();
 	
 }

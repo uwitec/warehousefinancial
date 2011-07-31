@@ -29,8 +29,8 @@ public class UserController extends BaseController<User> {
 	@Override
 	@Autowired
 	public void setBaseService(@Qualifier("userService")
-	BaseService<User> baseService) {
-		super.setBaseService(baseService);
+	BaseService<User> paramService) {
+		this.baseService = paramService;
 	}
 
 	@RequestMapping("login.do")
@@ -83,12 +83,6 @@ public class UserController extends BaseController<User> {
 		jo.put("success", true);
 		logger.info("用户:" + session.getAttribute("userName") + ",退出系统!");
 		return MVCUtil.jsonObjectModelAndView(jo);
-	}
-
-	@Override
-	protected void onLoad(HttpServletRequest request,
-			HttpServletResponse response, User entity, ModelAndView mav) {
-		super.onLoad(request, response, entity, mav);
 	}
 
 }
