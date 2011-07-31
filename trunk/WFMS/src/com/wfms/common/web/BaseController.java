@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 
+import xuner.web.json.JsonArray;
 import xuner.web.mvc.MvcUtil;
 
 import com.wfms.common.dao.BaseService;
@@ -39,8 +41,6 @@ import com.wfms.common.util.JSONUtil;
 import com.wfms.common.util.MVCUtil;
 import com.wfms.common.util.ReflectionUtils;
 import com.wfms.common.util.WebUtils;
-
-
 
 /**
  * 
@@ -67,6 +67,8 @@ public abstract class BaseController<T extends BaseEntity> {
 	protected String entityName;
 
 	protected T entity;
+
+	protected List<T> entityList;
 
 	protected String listView = null;
 
@@ -429,6 +431,32 @@ public abstract class BaseController<T extends BaseEntity> {
 
 	protected void onLoad(HttpServletRequest request,
 			HttpServletResponse response, T entity, ModelAndView mav) {
+	}
+
+	/**
+	 * 查询单条数据
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("loadAll.do")
+	public ModelAndView loadAll(HttpServletRequest request,
+			HttpServletResponse response)
+			throws Exception {
+		entityList = getEntityService().find();
+		JSONArray array = JSONArray.fromObject(entityList,
+				JSONUtil.baseFilterConfig());
+		ModelAndView mav = MVCUtil.jsonArrayModelAndView(array);
+		onLoadAll(request, response, entityList, mav);
+		return mav;
+	}
+
+	protected void onLoadAll(HttpServletRequest request,
+			HttpServletResponse response, List<T> entityList, ModelAndView mav) {
+
 	}
 
 	@SuppressWarnings("unchecked")
