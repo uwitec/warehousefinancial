@@ -449,14 +449,13 @@ public abstract class BaseController<T extends BaseEntity> {
 		entityList = getEntityService().find();
 		JSONArray array = JSONArray.fromObject(entityList,
 				JSONUtil.baseFilterConfig());
-		ModelAndView mav = MVCUtil.jsonArrayModelAndView(array);
-		onLoadAll(request, response, entityList, mav);
+		ModelAndView mav = onLoadAll(request, response, entityList);
 		return mav;
 	}
 
-	protected void onLoadAll(HttpServletRequest request,
-			HttpServletResponse response, List<T> entityList, ModelAndView mav) {
-
+	protected ModelAndView onLoadAll(HttpServletRequest request,
+			HttpServletResponse response, List<T> entityList) {
+		return MvcUtil.jsonArrayModelAndView(JSONArray.fromObject(entityList,JSONUtil.baseFilterConfig(format)));
 	}
 
 	@SuppressWarnings("unchecked")

@@ -17,8 +17,8 @@ public class DepartController extends BaseController<DepartGenInfo>{
 	
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("departService")BaseService<DepartGenInfo> baseService) {
-		super.setBaseService(baseService);
+	public void setBaseService(@Qualifier("departService")BaseService<DepartGenInfo> paramService) {
+		this.baseService = paramService;
 	}
 	
 	

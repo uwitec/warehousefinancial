@@ -2,6 +2,7 @@ package com.wfms.common.dao;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ public interface GeneralService<T extends BaseEntity> {
 
 	@Transactional(readOnly = true)
 	public Page find(Page page);
+	
+	@Transactional(readOnly = true)
+	public List<T> find();
 	
 	@Transactional(readOnly = true)
 	public Page fillPage(Page page);

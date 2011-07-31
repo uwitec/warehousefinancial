@@ -16,7 +16,7 @@ import com.wfms.common.web.BaseController;
 public class SysConfigController extends BaseController<SysConfig>{
 	@Override
 	@Autowired
-	public void setBaseService(@Qualifier("sysConfigService")BaseService<SysConfig> baseService) {
-		super.setBaseService(baseService);
+	public void setBaseService(@Qualifier("sysConfigService")BaseService<SysConfig> paramService) {
+		this.baseService = paramService;
 	}
 }

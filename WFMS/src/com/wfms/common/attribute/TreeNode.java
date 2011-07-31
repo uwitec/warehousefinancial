@@ -18,18 +18,18 @@ public class TreeNode {
 	private String qtip;
 	private Object o;
 	private String parentId;// 父节点
-	private boolean checked;
+	//private boolean checked;
 	private Integer sort_index = 0;
 	private boolean hasSelect;// 作为下拉选择框时是否可以选择
 	private List<TreeNode> children = new ArrayList<TreeNode>();
 
-	public boolean getChecked() {
+	/*public boolean getChecked() {
 		return checked;
 	}
 
 	public void setChecked(boolean checked) {
 		this.checked = checked;
-	}
+	}*/
 
 	public boolean isHasSelect() {
 		return hasSelect;
