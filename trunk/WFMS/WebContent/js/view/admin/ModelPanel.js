@@ -7,7 +7,7 @@ Ext.define('wfms.admin.ModelPanel',{
 			autoLoad:true,
 	        proxy: {
 	            type: 'ajax',
-	            url : 'system/module_manage/userModuleTree.do',
+	            url : 'system/module_manage/loadAll.do',
 	            actionMethods : 'post',
 	            extraParams : {clsName:'RgModelAction',methodName:'getModelTree'}
 	        },
@@ -57,11 +57,11 @@ Ext.define('wfms.admin.ModelPanel',{
 		});
 		
 		this.centerStore = Ext.create('Ext.data.Store', {
-	        fields: ['id', {name:'name',mapping:'text'},'url','path','p_id','flag','sortId'],        
+	        fields: ['id', 'modulename','forwardpage','parentid','moduleType','siblingOrder'],        
 	        proxy: {
 	            type: 'ajax',
 	            actionMethods : 'post',           
-	            url : wfms.defaultUrl(), 
+	            url : 'system/module_manage/childModules.do', 
 	            timeout : 1000*60*3,           
 	            extraParams : {clsName:'RgModelAction',methodName:'getModelList'},                        
 		        reader: {
@@ -127,9 +127,9 @@ Ext.define('wfms.admin.ModelPanel',{
 		    },    
 		    columns: [
 		    	{xtype: 'rownumberer',width: 50, sortable: false/*,header:'序号'*/,align:'center'},
-		    	{header: '名称',  dataIndex: 'name',width:180},
+		    	{header: '名称',  dataIndex: 'modulename',width:180},
 		        {header: '状态',  dataIndex: 'flag',width:50,renderer:function(v){return v==1 ? '启用':'停用'}},
-		        {header: '排序',  dataIndex: 'sortId',width:50},
+		        {header: '排序',  dataIndex: 'siblingOrder',width:50},
 		        {header: 'URL(模块地址)',  dataIndex: 'url',width:300},
 		        {
 		        	xtype: 'actioncolumn',
