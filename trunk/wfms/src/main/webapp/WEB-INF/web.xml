@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>wfms</display-name>
+
+	<!-- - Key of the system property that should specify the root directory 
+		of this - web app. Applied by WebAppRootListener or Log4jConfigListener. -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>wfms.web.root</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+
+	<!-- listener -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- character fileter -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- ServletContext Filter -->
+	<filter>
+		<filter-name>ServletContextFilter</filter-name>
+		<filter-class>com.wfms.common.filter.ServletContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ServletContextFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- resource access filter -->
+	<!-- <filter> <filter-name>ResourceFilter</filter-name> <filter-class>com.wfms.common.filter.ResourceFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>ResourceFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+
+	<filter>
+		<filter-name>SessionFilter</filter-name>
+		<filter-class>com.wfms.common.filter.SessionFilter</filter-class>
+		<init-param>
+			<param-name>loginurl</param-name>
+			<param-value>/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>indexurl</param-name>
+			<param-value>/index.html</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!--Spring DispatchServlet -->
+	<servlet>
+		<servlet-name>wfms</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:wfms-servlet.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wfms</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- proxool shutdown servlet -->
+	<servlet>
+		<servlet-name>proxoolShutdownServlet</servlet-name>
+		<servlet-class>com.wfms.common.web.ProxoolServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<!-- proxool adminconsole servlet -->
+	<servlet>
+		<servlet-name>proxoolAdmin</servlet-name>
+		<servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>proxoolAdmin</servlet-name>
+		<url-pattern>/proxool</url-pattern>
+	</servlet-mapping>
+
+	<!-- 配置受保护域，只有Tomcat管理员才能察看连接池的信息 <security-constraint> <web-resource-collection> 
+		<web-resource-name>proxool</web-resource-name> <url-pattern>/proxool</url-pattern> 
+		</web-resource-collection> <auth-constraint> <role-name>manager</role-name> 
+		</auth-constraint> </security-constraint> <login-config> <auth-method>BASIC</auth-method> 
+		<realm-name>proxool manager Application</realm-name> </login-config> <security-role> 
+		<description> The role that is required to log in to the Manager Application 
+		</description> <role-name>manager</role-name> </security-role> -->
+	<!-- welcome file -->
+	<welcome-file-list>
+		<welcome-file>login.html</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<description>验证码</description>
+		<servlet-name>VerifyCodeServlet</servlet-name>
+		<servlet-class>com.wfms.common.web.VerifyCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VerifyCodeServlet</servlet-name>
+		<url-pattern>/VerifyCodeServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>pushlet</servlet-name>
+		<servlet-class>nl.justobjects.pushlet.servlet.Pushlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>pushlet</servlet-name>
+		<url-pattern>/pushlet.srv</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+
+	<mime-mapping>
+		<extension>htm</extension>
+		<mime-type>text/html;charset=utf-8</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>html</extension>
+		<mime-type>text/html;charset=utf-8</mime-type>
+	</mime-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/WEB-INF/views/exception.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error.html</location>
+	</error-page>
+	<error-page>
+		<error-code>400</error-code>
+		<location>/index.html</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/403.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
+</web-app>
