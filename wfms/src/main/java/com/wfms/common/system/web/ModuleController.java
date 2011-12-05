@@ -56,7 +56,8 @@ public class ModuleController extends BaseController<ModuleGenInfo> {
 		return MvcUtil.jsonArrayModelAndView(treeList);
 	}
 
-	protected ModelAndView onLoadAll(HttpServletRequest request,
+	@Override
+	protected ModelAndView afterLoadAll(HttpServletRequest request,
 			HttpServletResponse response, List<ModuleGenInfo> entityList) {
 		List<TreeNode> treeList = TreeUtil.initTree("", entityList);
 		return MvcUtil.jsonArrayModelAndView(treeList);
