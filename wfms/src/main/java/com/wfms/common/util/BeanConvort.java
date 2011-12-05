@@ -281,21 +281,6 @@ public class BeanConvort {
 			return null;
 		}
 	
-	/**
-	 * 
-	 * <dl>
-	 * <b>方法�?:preventNull</b>
-	 * <dd>方法作用：处理非基本类型的null属�??,并设置其实体属�?�id�?-1
-	 * <dd>重写备注�?(这里描述重写原因、结果或备注)
-	 * <dd>适用条件�?(这里描述这个方法的�?�用条件 �? 可�??)
-	 * <dd>执行流程�?(这里描述这个方法的执行流�? �? 可�??)
-	 * <dd>适用方法�?(这里描述这个方法的使用方�? �? 可�??)
-	 * <dd>注意事项�?(这里描述这个方法的注意事�? �? 可�??) 
-	 * <dd>@param obj
-	 * </dl>
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 */
 	private static void preventNullAttr(Class<?> rootCls,Object obj) throws IllegalArgumentException, IllegalAccessException{   
         Class<?> objClass = obj.getClass(); 
         for (int i = 0; i < objClass.getDeclaredFields().length; i++) {   
@@ -351,21 +336,7 @@ public class BeanConvort {
             }
         }   
     }  
-	/**
-	 * 
-	 * <dl>
-	 * <b>方法�?:preventNull</b>
-	 * <dd>方法作用：处理非基本类型的null属�??,并设置其实体属�?�id�?-1
-	 * <dd>重写备注�?(这里描述重写原因、结果或备注)
-	 * <dd>适用条件�?(这里描述这个方法的�?�用条件 �? 可�??)
-	 * <dd>执行流程�?(这里描述这个方法的执行流�? �? 可�??)
-	 * <dd>适用方法�?(这里描述这个方法的使用方�? �? 可�??)
-	 * <dd>注意事项�?(这里描述这个方法的注意事�? �? 可�??) 
-	 * <dd>@param obj
-	 * </dl>
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 */
+	
 	public static void preventNullAttr(List<Class<?>> filterCls,Object obj) throws IllegalArgumentException, IllegalAccessException{   
         Class<?> objClass = obj.getClass(); 
         for (int i = 0; i < objClass.getDeclaredFields().length; i++) {   
