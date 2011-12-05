@@ -70,7 +70,8 @@ public class Data {
 	}
 
 	public String getLink() {
-		return "javascript:alert('row:"+rownum+" column:"+columnnum+"');";
+		return link;
+		//return "javascript:alert('row:"+rownum+" column:"+columnnum+"');";
 	}
 
 	public void setLink(String link) {
