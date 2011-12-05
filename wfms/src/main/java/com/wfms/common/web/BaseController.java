@@ -3,9 +3,7 @@ package com.wfms.common.web;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wfms.common.dao.BaseService;
 import com.wfms.common.orm.BaseEntity;
@@ -61,6 +60,8 @@ public abstract class BaseController<T extends BaseEntity> {
 	protected String entityName;
 
 	protected T entity;
+	
+	protected List<T> entityList;
 
 	protected String listView = null;
 
@@ -141,7 +142,7 @@ public abstract class BaseController<T extends BaseEntity> {
 		Page page = new Page();
 		beforeLoadPage(request, page);
 		WebUtils.setPageParameter(request, page);
-		// 多级属性
+		// 级联属性条件处理
 		boolean multiLevel = isMultiLevelParam(request);
 		if (multiLevel) {
 			page = getEntityService().find(page);
@@ -422,7 +423,30 @@ public abstract class BaseController<T extends BaseEntity> {
 	protected void onLoad(HttpServletRequest request,
 			HttpServletResponse response, T entity, ModelAndView mav) {
 	}
+	
+	/**
+	 * 查询所有数据
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("loadAll.do")
+	public ModelAndView loadAll(HttpServletRequest request,
+			HttpServletResponse response)
+			throws Exception {
+		entityList = getEntityService().find();
+		ModelAndView mav = afterLoadAll(request, response, entityList);
+		return mav;
+	}
 
+	protected ModelAndView afterLoadAll(HttpServletRequest request,
+			HttpServletResponse response, List<T> entityList) {
+		return MvcUtil.jsonArrayModelAndView(JSONArray.toJSONString(entityList));
+	}
+	
 	@SuppressWarnings("unchecked")
 	private String getMessageFromErrors(BindException errors) {
 		StringBuilder sb = new StringBuilder();
