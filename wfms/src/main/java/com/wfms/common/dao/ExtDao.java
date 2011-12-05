@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -50,8 +49,7 @@ public class ExtDao<T> extends BaseDao {
 		super.setSessionFactory(sessionFactory);
 	}
 
-	@SuppressWarnings("unchecked")
-	protected int batchAdd(List transientInstances, int commitNum) {
+	protected int batchAdd(List<?> transientInstances, int commitNum) {
 		if (transientInstances == null || transientInstances.size() == 0) {
 			return 0;
 		}
@@ -90,8 +88,7 @@ public class ExtDao<T> extends BaseDao {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	protected int batchUpdate(List transientInstances, int commitNum) {
+	protected int batchUpdate(List<?> transientInstances, int commitNum) {
 		Transaction tx = null;
 		HibernateTemplate hbTemp = getHibernateTemplate();
 		hbTemp.setAllowCreate(true);
@@ -182,15 +179,15 @@ public class ExtDao<T> extends BaseDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List findWithSQL(final String sql) {
-		List list = (List) this.getHibernateTemplate().execute(
+	public List<?> findWithSQL(final String sql) {
+		List<?> list = (List<?>) this.getHibernateTemplate().execute(
 				new HibernateCallback() {
 					public Object doInHibernate(Session session)
 							throws SQLException, HibernateException {
 						SQLQuery query = session.createSQLQuery(sql);
 						query.addScalar("NX",
 								new org.hibernate.type.StringType());
-						List children = query.list();
+						List<?> children = query.list();
 						return children;
 					}
 				});
@@ -210,7 +207,6 @@ public class ExtDao<T> extends BaseDao {
 						Connection con = null;
 						PreparedStatement stmt = null;
 						ResultSet rs = null;
-
 						try {
 							DataSource ds = SessionFactoryUtils
 									.getDataSource(getSessionFactory());
@@ -449,10 +445,6 @@ public class ExtDao<T> extends BaseDao {
 	public String[] getOneRs(final String sql, final String inputValue[],
 			final String outputValue[]) throws SQLException {
 		final String result[] = new String[outputValue.length];
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
 		Work work = new Work() {
 			public void execute(Connection conn) throws SQLException {
 				// 通过JDBC API执行用于批量更新的SQL语句
