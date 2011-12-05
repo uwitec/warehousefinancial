@@ -2,8 +2,6 @@ package com.wfms.common.util;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.wfms.common.web.views.AbstractMimeView;
 import com.wfms.common.web.views.JSONView1;
 import com.wfms.common.web.views.MimeFileView;
